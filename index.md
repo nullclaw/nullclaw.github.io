@@ -4,8 +4,6 @@ description: nullclaw (Null Claw, NullClaw) — the smallest fully autonomous AI
 keywords: nullclaw, null claw, NullClaw, AI assistant, Zig, OpenClaw, lightweight AI, autonomous agent
 ---
 
-# nullclaw
-
 **The smallest fully autonomous AI assistant.**
 
 1 MB binary · Zero dependencies · Written in Zig
