@@ -8,7 +8,7 @@ keywords: nullclaw, null claw, NullClaw, AI assistant, Zig, OpenClaw, lightweigh
 
 1 MB binary · Zero dependencies · Written in Zig
 
-[**→ GitHub Repository**](https://github.com/nullclaw/nullclaw){: .btn}
+[**GitHub Repository**](https://github.com/nullclaw/nullclaw){: .btn}
 
 ---
 
@@ -44,7 +44,7 @@ zig build -Doptimize=ReleaseSmall
 
 ## Links
 
-- [GitHub →](https://github.com/nullclaw/nullclaw)
+- [GitHub](https://github.com/nullclaw/nullclaw)
 - [Architecture](architecture.md)
 - [Security](security/overview.md)
 - [Deployment](deployment/network.md)
