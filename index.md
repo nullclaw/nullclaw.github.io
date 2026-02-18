@@ -14,7 +14,7 @@ keywords: nullclaw, null claw, NullClaw, AI assistant, Zig, OpenClaw, lightweigh
 
 ## What is nullclaw?
 
-nullclaw (also written as *Null Claw* or *NullClaw*) is a lightweight autonomous AI assistant — part of the [OpenClaw](https://github.com/openclaw) family alongside ZeroClaw, NanoClaw and others.
+nullclaw (also written as *Null Claw* or *NullClaw*) is a lightweight autonomous AI assistant — part of the [OpenClaw](https://github.com/openclaw) family (formerly MoltBot → ClawdBot) alongside ZeroClaw, PicoClaw, nanobot and others.
 
 Built from scratch in [Zig](https://ziglang.org), it runs on anything from a Raspberry Pi to a cloud VM with no runtime dependencies.
 
