@@ -25,9 +25,11 @@ git clone https://github.com/nullclaw/nullclaw.git
 cd nullclaw
 zig build -Doptimize=ReleaseSmall
 
-./zig-out/bin/nullclaw onboard --interactive
+./zig-out/bin/nullclaw onboard   # interactive setup wizard
 ./zig-out/bin/nullclaw agent -m "Hello!"
 ```
+
+See the [Getting Started guide](getting-started.md) for a full walkthrough.
 
 ## Stats
 
@@ -36,15 +38,31 @@ zig build -Doptimize=ReleaseSmall
 | Binary | ~1 MB (ReleaseSmall) |
 | Peak RAM | ~27 MB under full test load |
 | Startup | < 2 ms |
-| Tests | 2,775 |
-| Providers | 22+ (OpenAI, Anthropic, Ollama, Gemini …) |
-| Channels | 13 (Telegram, Discord, Slack, WhatsApp …) |
+| Tests | 3,371 |
+| Providers | 50+ (9 core + 41 compatible services) |
+| Channels | 17 (Telegram, Discord, Slack, WhatsApp …) |
+| Tools | 30+ built-in |
 | Dependencies | 0 (besides libc + optional SQLite) |
 | Language | Zig 0.15 |
+
+## Feature Highlights
+
+- **50+ providers** — OpenRouter, OpenAI, Anthropic, Gemini, Ollama, Groq, Mistral, DeepSeek, xAI + 41 compatible services
+- **17 channels** — Telegram, Discord, Slack, WhatsApp, Matrix, Signal, iMessage, IRC, Email, Mattermost, LINE, Lark/Feishu, DingTalk, QQ, OneBot, MaixCam
+- **Cross-channel model switching** — route different models to different conversations via hints
+- **Multi-account channels** — run multiple bot accounts per platform
+- **Reliability chain** — automatic retries, provider fallback, API key rotation, model fallback
+- **30+ tools** — file ops, shell, git, web, memory, scheduling, delegation, hardware, integrations
 
 ## Links
 
 - [GitHub](https://github.com/nullclaw/nullclaw)
+- [Getting Started](getting-started.md)
+- [Configuration](configuration.md)
+- [Providers](providers.md)
+- [Channels](channels.md)
+- [Tools](tools.md)
+- [CLI Reference](cli.md)
 - [Architecture](architecture.md)
 - [Security](security/overview.md)
 - [Deployment](deployment/network.md)

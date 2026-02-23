@@ -17,7 +17,7 @@ nullclaw has excellent application-layer and OS-level security:
 - Resource limits (memory, CPU, disk)
 - Audit logging with HMAC signatures
 - Encrypted secrets (ChaCha20-Poly1305)
-- 1,639 tests
+- 3,371 tests
 
 ## Comparison Matrix
 
@@ -33,7 +33,7 @@ nullclaw has excellent application-layer and OS-level security:
 | **Resource Limits** | No | No | **Yes** |
 | **Audit Logging** | No | No | **Yes (HMAC-signed)** |
 | **Encrypted Secrets** | No | No | **Yes (ChaCha20)** |
-| **Tests** | — | 1,017 | **1,639** |
+| **Tests** | — | 1,017 | **3,371** |
 
 ## Roadmap
 

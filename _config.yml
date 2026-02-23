@@ -1,0 +1,18 @@
+title: nullclaw
+description: "The smallest fully autonomous AI assistant. 1 MB binary, zero dependencies, written in Zig."
+url: "https://nullclaw.github.io"
+baseurl: ""
+
+remote_theme: pages-themes/cayman@v0.2.0
+plugins:
+  - jekyll-remote-theme
+
+header_pages:
+  - index.md
+  - getting-started.md
+  - configuration.md
+  - providers.md
+  - channels.md
+  - tools.md
+  - cli.md
+  - architecture.md

@@ -29,10 +29,10 @@ Callers interact with the interface; implementations provide the vtable. Swap an
 
 | Subsystem | Interface | Implementations | Location |
 |-----------|-----------|-----------------|----------|
-| **AI Models** | `Provider` | Anthropic, OpenAI, OpenRouter, Ollama, Gemini, Compatible, Reliable, Router | `src/providers/` |
-| **Channels** | `Channel` | CLI, Telegram, Discord, Slack, WhatsApp, Matrix, IRC, iMessage, Email, Lark, DingTalk | `src/channels/` |
-| **Memory** | `Memory` | SQLite (FTS5 + vector), Markdown, None | `src/memory/` |
-| **Tools** | `Tool` | Shell, FileRead, FileWrite, FileEdit, HTTP, Git, Memory*, Browser*, Image, Schedule, Delegate, HardwareInfo | `src/tools/` |
+| **AI Models** | `Provider` | Anthropic, OpenAI, OpenRouter, Ollama, Gemini, Compatible (41 services), Claude CLI, Codex CLI, OpenAI Codex, Reliable, Router | `src/providers/` |
+| **Channels** | `Channel` | CLI, Telegram, Discord, Slack, WhatsApp, Matrix, Signal, IRC, iMessage, Email, Mattermost, LINE, Lark/Feishu, DingTalk, QQ, OneBot, MaixCam | `src/channels/` |
+| **Memory** | `Memory` | SQLite (FTS5 + vector), Markdown, Lucid, None | `src/memory/` |
+| **Tools** | `Tool` | Shell, FileRead, FileWrite, FileEdit, FileAppend, Git, HTTP, WebFetch, Browser, BrowserOpen, Image, Screenshot, MemoryStore, MemoryRecall, MemoryForget, Schedule, Cron (add/list/remove/run/runs/update), Delegate, Spawn, Message, Pushover, HardwareBoardInfo, HardwareMemory, I2C, SPI, Composio + MCP tools | `src/tools/` |
 | **Sandbox** | `Sandbox` | Landlock, Firejail, Bubblewrap, Docker, auto-detect | `src/security/` |
 | **Runtime** | `RuntimeAdapter` | Native, Docker, WASM | `src/runtime.zig` |
 | **Tunnel** | `Tunnel` | None, Cloudflare, Tailscale, ngrok, Custom | `src/tunnel.zig` |
@@ -47,10 +47,10 @@ src/
   root.zig              Module hierarchy (public API)
   config.zig            JSON config loader + 30 sub-config structs
   agent/                Agent loop, tool dispatch, prompt construction
-  channels/             11 channel implementations
-  providers/            22+ AI provider implementations
+  channels/             17 channel implementations
+  providers/            50+ AI provider implementations (9 core + 41 compatible)
   memory/               SQLite backend, embeddings, vector search, hygiene, snapshots
-  tools/                17 tool implementations
+  tools/                30+ tool implementations
   security/             Policy, audit, secrets, sandbox backends
   daemon.zig            Daemon supervisor with exponential backoff
   gateway.zig           HTTP gateway (rate limiting, pairing, webhooks)
@@ -63,6 +63,43 @@ src/
   health.zig            Component health registry
   onboard.zig           Interactive setup wizard
 ```
+
+## Provider Reliability Chain
+
+nullclaw wraps the primary provider in a multi-layer reliability system:
+
+```
+User Request
+    ↓
+┌─────────────────┐
+│ RouterProvider   │  ← hint-based model routing ("hint:reasoning" → specific model)
+└────────┬────────┘
+         ↓
+┌─────────────────┐
+│ ReliableProvider │  ← retries, fallback, key rotation, error classification
+└────────┬────────┘
+         ↓
+┌─────────────────┐
+│ Primary Provider │  ← e.g. OpenRouter, Anthropic, OpenAI
+└─────────────────┘
+```
+
+**RuntimeProviderBundle** wires this at startup:
+1. Resolves primary API key from config or environment
+2. Creates the primary `ProviderHolder` (one of 9 core provider types)
+3. If reliability features are configured, wraps in `ReliableProvider`
+4. Exposes a single `Provider` vtable to the agent loop
+
+**ReliableProvider** execution order per request:
+1. Try primary provider with retries (exponential backoff, min 50ms, max 10s)
+2. Try each fallback provider with retries
+3. On total failure, try next model in the model fallback chain
+4. Repeat until success or all options exhausted
+
+**Error classification** (three tiers):
+- **Non-retryable** (4xx except 429/408) — skip retries, try next provider
+- **Rate-limited** (429, quota errors) — rotate API key or try next provider
+- **Context exhaustion** (token limit errors) — returns `ContextLengthExceeded`
 
 ## Allocation Patterns
 
@@ -124,7 +161,7 @@ User query
 ```bash
 zig build                          # Debug
 zig build -Doptimize=ReleaseSmall  # Release (639 KB)
-zig build test --summary all       # 1,639 tests
+zig build test --summary all       # 3,371 tests
 ```
 
 Dependencies: zero Zig packages. Only libc + optional SQLite (via Homebrew on macOS).
