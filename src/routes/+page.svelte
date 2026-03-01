@@ -16,10 +16,6 @@
     });
 </script>
 
-<svelte:head>
-    <title>NullClaw | Autonomous AI Ecosystem</title>
-</svelte:head>
-
 <div class="hero">
     <div class="hero-content">
         <h1 class="glitch-text" data-text="NULLCLAW ECOSYSTEM">
