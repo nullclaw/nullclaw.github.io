@@ -1,28 +1,42 @@
-# nullclaw.github.io
+# sv
 
-Documentation site for [nullclaw](https://github.com/nullclaw/nullclaw) — the smallest fully autonomous AI assistant infrastructure.
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-Live at **https://nullclaw.github.io/**
+## Creating a project
 
-## Structure
+If you're seeing this, you've probably already done this step. Congrats!
 
-```
-index.md                    Landing page
-architecture.md             Vtable design, module layout, memory system
-security/
-  overview.md               Defense-in-depth summary
-  sandboxing.md             Landlock, Firejail, Bubblewrap, Docker
-  audit-logging.md          Tamper-evident event trail
-  resource-limits.md        CPU, memory, disk enforcement
-  roadmap.md                Security improvement phases
-deployment/
-  network.md                Raspberry Pi, tunnels, webhook channels
-contributing/
-  pr-workflow.md            Pull request governance
-  reviewer-playbook.md      Review execution guide
-  ci-map.md                 GitHub Actions workflow map
+```sh
+# create a new project
+npx sv create my-app
 ```
 
-## License
+To recreate this project with the same configuration:
 
-MIT — see [nullclaw/LICENSE](https://github.com/nullclaw/nullclaw/blob/main/LICENSE)
+```sh
+# recreate this project
+npx sv@0.12.4 create --template minimal --types ts --install npm .
+```
+
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```sh
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
+
+## Building
+
+To create a production version of your app:
+
+```sh
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
