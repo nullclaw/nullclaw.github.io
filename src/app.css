@@ -89,7 +89,7 @@ body.theme-light {
 
 html,
 body {
-  height: 100%;
+  min-height: 100vh;
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-mono);
@@ -97,7 +97,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
@@ -105,7 +105,7 @@ body {
 body:not(.effects-disabled)::before {
   content: " ";
   display: block;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
@@ -136,7 +136,7 @@ body:not(.effects-disabled)::before {
 body:not(.effects-disabled)::after {
   content: " ";
   display: block;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
