@@ -5,7 +5,7 @@
   let { children } = $props();
 
   let isScrolled = $state(false);
-  let effectsDisabled = $state(false);
+  let effectsDisabled = $state(true);
   let theme = $state("theme-matrix");
 
   onMount(() => {
