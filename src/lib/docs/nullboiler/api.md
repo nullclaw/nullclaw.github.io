@@ -1,18 +1,20 @@
 # API
 
-## Auth
+## Conventions
 
-When `--token` or config `api_token` is set:
+- Content type: `application/json`
+- Optional auth: set `--token` or `api_token`
+- In token mode, `/health` and `/metrics` remain public
+- Run creation idempotency: `Idempotency-Key` header or `idempotency_key` body field
 
-- all endpoints require `Authorization: Bearer <token>`
-- except `GET /health` and `GET /metrics`
+## Endpoint Groups
 
-## Health + Metrics
+### Health
 
 - `GET /health`
 - `GET /metrics`
 
-## Runs
+### Runs
 
 - `POST /runs`
 - `GET /runs`
@@ -20,13 +22,7 @@ When `--token` or config `api_token` is set:
 - `POST /runs/{id}/cancel`
 - `POST /runs/{id}/retry`
 
-`POST /runs` requires body with `steps` array and supports:
-
-- `input` (optional)
-- `callbacks` (optional)
-- `idempotency_key` (optional)
-
-## Steps
+### Steps
 
 - `GET /runs/{id}/steps`
 - `GET /runs/{id}/steps/{step_id}`
@@ -35,21 +31,19 @@ When `--token` or config `api_token` is set:
 - `POST /runs/{id}/steps/{step_id}/signal`
 - `GET /runs/{id}/steps/{step_id}/chat`
 
-## Events
+### Events
 
 - `GET /runs/{id}/events`
 
-## Workers
+### Workers
 
 - `GET /workers`
 - `POST /workers`
 - `DELETE /workers/{id}`
 
-## Admin
+### Admin
 
 - `POST /admin/drain`
-
-When drain mode is enabled, new `POST /runs` returns `503`.
 
 ## Minimal Run Payload
 
@@ -67,7 +61,15 @@ When drain mode is enabled, new `POST /runs` returns `503`.
 }
 ```
 
-## Error Format
+## Typical Run Debug Sequence
+
+```bash
+curl -s http://127.0.0.1:8080/runs/<RUN_ID>
+curl -s http://127.0.0.1:8080/runs/<RUN_ID>/steps
+curl -s http://127.0.0.1:8080/runs/<RUN_ID>/events
+```
+
+## Error Shape
 
 ```json
 {

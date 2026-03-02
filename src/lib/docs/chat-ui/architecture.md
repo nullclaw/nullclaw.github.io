@@ -1,63 +1,62 @@
 # Architecture
 
-Chat UI architecture is layered to keep transport logic separate from UI rendering.
+Chat UI is intentionally layered so transport/session logic stays outside presentation components.
 
-## Layering
+## Layer Model
 
-### 1. Presentation
+### 1. Presentation Layer
 
 - `src/routes/+page.svelte`
 - `src/lib/components/*`
 
-Components render state and emit user actions. They do not own WebSocket transport.
+Responsibility: render state and emit user intent.
 
 ### 2. Connection Orchestration
 
 - `src/lib/session/connection-controller.svelte.ts`
 
-Responsibilities:
+Responsibility:
 
 - create/replace `NullclawClient`
-- pairing flow execution
-- session restore from storage
-- forwarding envelopes into session store
-- logout/disconnect lifecycle
+- pairing/connect lifecycle
+- auth restore/logout handling
+- feed protocol events into session store
 
 ### 3. Session Store
 
 - `src/lib/stores/session.svelte.ts`
 
-Tracks:
+Responsibility:
 
-- chat message timeline
+- chat timeline
 - tool call/result timeline
 - approval requests
-- error state and streaming lifecycle cleanup
+- streaming/error cleanup
 
-### 4. Transport and Protocol
+### 4. Transport + Protocol
 
 - `src/lib/protocol/client.svelte.ts`
 - `src/lib/protocol/types.ts`
 - `src/lib/protocol/e2e.ts`
 
-Contains:
+Responsibility:
 
-- envelope parsing/validation
-- websocket connection state machine
-- reconnect policy
-- E2E payload encrypt/decrypt helpers
+- envelope validation
+- websocket state machine
+- reconnect backoff
+- E2E encrypt/decrypt helpers
 
-### 5. Persistence and Preferences
+### 5. Persistence + Preferences
 
 - `src/lib/session/auth-storage.ts`
 - `src/lib/theme.ts`
 - `src/lib/ui/preferences.ts`
 
-Manages auth TTL persistence, theme class application, and effect toggles.
+Responsibility: auth TTL storage + theme/effects storage.
 
 ## Client States
 
-`NullclawClient` state values:
+`NullclawClient` states:
 
 - `disconnected`
 - `connecting`
@@ -67,6 +66,6 @@ Manages auth TTL persistence, theme class application, and effect toggles.
 
 ## Core Invariants
 
-- WebSocket lifecycle is owned by protocol + controller layers, not components.
-- Store handles event-to-UI projection and stream finalization.
-- `unauthorized` events clear auth artifacts and reset session.
+- components do not manage websocket lifecycle directly
+- unauthorized session invalidates persisted auth
+- timeline rendering is store-driven from protocol envelopes

@@ -1,6 +1,6 @@
 # Operations
 
-## Start + Runtime Params
+## Start Command
 
 ```bash
 ./zig-out/bin/nulltickets --port 7700 --db /tmp/nulltickets.db
@@ -12,7 +12,7 @@ Defaults:
 - port: `7700`
 - db: `nulltickets.db`
 
-## Common Operational Queries
+## Basic Operational Queries
 
 ```bash
 curl -s http://127.0.0.1:7700/health
@@ -21,31 +21,31 @@ curl -s 'http://127.0.0.1:7700/tasks?limit=50'
 curl -s 'http://127.0.0.1:7700/artifacts?limit=50'
 ```
 
-## Idempotency Strategy
+## Idempotency Usage
 
-For retries of write calls from external orchestrators:
+For retries from external orchestrators, reuse a stable key:
 
 ```bash
 -H 'Idempotency-Key: <stable-request-key>'
 ```
 
-If same key is reused with different payload, API returns `409 idempotency_conflict`.
+Same key with a different request body returns `409 idempotency_conflict`.
 
-## Lease Lifecycle Tips
+## Lease Lifecycle Checklist
 
-- store `lease_id` + `lease_token` from claim response
-- heartbeat before expiry for long tasks
-- pass lease token to all run mutations (`events`, `gates`, `transition`, `fail`)
+- persist `lease_id` and `lease_token` from claim response
+- heartbeat before expiry
+- send lease bearer token on run mutations (`events`, `gates`, `transition`, `fail`)
 
-Common auth/lease failures:
+Common lease/auth failures:
 
-- `401 unauthorized` (invalid/missing token)
-- `404 not_found` (lease/run not active)
-- `410 expired` (lease expired)
+- `401 unauthorized`
+- `404 not_found`
+- `410 expired`
 
-## Retry + Dead Letter Behavior
+## Retry + Dead Letter
 
-Set retry policy when creating tasks:
+Example task retry policy:
 
 ```json
 "retry_policy": {
@@ -55,10 +55,10 @@ Set retry policy when creating tasks:
 }
 ```
 
-After repeated failure beyond policy, task can be moved to dead-letter stage and marked with reason (for example `max_attempts_exceeded`).
+After repeated failure beyond policy, task can be moved to dead-letter stage.
 
-## OTLP Ingest Notes
+## OTLP Notes
 
-- JSON OTLP payloads are parsed and spans extracted
+- JSON OTLP payloads are parsed into span records
 - non-JSON payloads can still be stored as raw batch blobs
-- use `run_id`/`task_id` attributes for correlation into task execution data
+- include run/task attributes for better trace-to-task correlation

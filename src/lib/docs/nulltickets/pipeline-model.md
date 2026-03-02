@@ -1,6 +1,6 @@
 # Pipeline Model
 
-Pipeline definitions are stored as JSON (`definition_json`) and validated before insert.
+Pipeline definitions are JSON objects validated before insert (`src/domain.zig`).
 
 ## Definition Shape
 
@@ -24,25 +24,21 @@ Pipeline definitions are stored as JSON (`definition_json`) and validated before
 
 ## Validation Rules
 
-From `src/domain.zig`:
+- `initial` must be non-empty and present in `states`
+- `states` and `transitions` must be non-empty
+- each transition `from`/`to` must reference known states
+- at least one state must be terminal (`terminal=true`)
+- each non-terminal state must have outgoing transitions
 
-- non-empty `initial`
-- non-empty `states`
-- non-empty `transitions`
-- `initial` must exist in `states`
-- each transition `from`/`to` must reference known state
-- at least one state must be `terminal=true`
-- each non-terminal state must have at least one outgoing transition
+## Task Extensions That Affect Execution
 
-## Task Creation Extensions
+`POST /tasks` accepts:
 
-`POST /tasks` supports:
+- `retry_policy` (`max_attempts`, `retry_delay_ms`, `dead_letter_stage`)
+- `dependencies`
+- `assigned_agent_id` and `assigned_by`
 
-- `retry_policy`: `max_attempts`, `retry_delay_ms`, `dead_letter_stage`
-- `dependencies`: list of task ids
-- `assigned_agent_id` + `assigned_by`
-
-These feed claim/transition behavior directly.
+These directly affect claim eligibility and transition behavior.
 
 ## Transition Guardrails
 
@@ -51,7 +47,7 @@ These feed claim/transition behavior directly.
 - `expected_stage`
 - `expected_task_version`
 
-Potential conflict responses:
+Common conflict responses:
 
 - `required_gates_not_passed`
 - `expected_stage_mismatch`

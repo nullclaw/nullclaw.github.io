@@ -1,38 +1,41 @@
 # Overview
 
-## What NullBoiler Is
+NullBoiler is the orchestration layer: it runs workflow graphs (`runs` + `steps`) and dispatches executable work to registered workers.
 
-`nullboiler` is a workflow orchestrator. It executes workflow runs composed of dependent steps and routes executable work to registered workers.
+## Start In 5 Minutes
 
-Core concerns in code:
+1. Run [Quick Start](/nullboiler/docs/quick-start).
+2. Register one worker.
+3. Create one run and inspect events.
 
-- `src/api.zig`: run/step/worker HTTP surface
-- `src/engine.zig`: scheduler + step execution state machine
-- `src/dispatch.zig`: protocol-aware worker dispatch
-- `src/store.zig`: SQLite persistence for runs, steps, events, workers, advanced state
+## Choose NullBoiler When
+
+- work must be split into dependent or parallel steps
+- you need retries, approvals, waits, signals, or advanced orchestration types
+- you need worker routing by tags/protocol/capacity
+
+## Do Not Use NullBoiler Alone When
+
+- you need long-lived pipeline stages, leases, and gate history (use `nulltickets`)
+- you need direct provider/tool runtime behavior without workflow graph overhead (use `nullclaw`)
 
 ## What It Owns
 
-- Run lifecycle (`running`, `failed`, `completed`, `cancelled`)
-- Step lifecycle (`pending`, `ready`, `running`, `waiting_approval`, ...)
-- Step dependency graph execution (`depends_on`)
-- Worker selection by tag overlap, status, and capacity
-- Advanced orchestration constructs (`loop`, `wait`, `router`, `saga`, `group_chat`, ...)
+- run lifecycle (`running`, `failed`, `completed`, `cancelled`)
+- step lifecycle and dependency scheduling
+- worker registry and protocol-aware dispatch
+- event stream and orchestration state persistence
 
-## What It Does Not Own
+## Ecosystem Boundary
 
-- Long-lived product task pipelines/stages across teams (that is `nulltickets`)
-- LLM/tool runtime internals (that is `nullclaw` workers)
+- `nullclaw`: executes assistant/tool behavior
+- `nullboiler`: decides step order and dispatches workers
+- `nulltickets`: governs task lifecycle and queue/lease semantics
 
-## Where It Fits In Ecosystem
+## Read Next
 
-- `nullclaw`: executes assistant behavior as workers.
-- `nullboiler`: orchestrates workflow topology and execution order.
-- `nulltickets`: tracks pipeline state, leases, gates, and artifacts as task control plane.
-
-## Typical Use Cases
-
-- Multi-step delivery flows (`research -> implement -> review`)
-- Human-in-the-loop approvals for sensitive steps
-- Fan-out/fan-in content or code processing pipelines
-- Workflows that need retries, timeouts, and event-level auditability
+1. [Quick Start](/nullboiler/docs/quick-start)
+2. [Step Types](/nullboiler/docs/step-types)
+3. [Worker Protocols](/nullboiler/docs/worker-protocols)
+4. [API](/nullboiler/docs/api)
+5. [Operations](/nullboiler/docs/operations)

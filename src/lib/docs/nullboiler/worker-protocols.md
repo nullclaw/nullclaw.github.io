@@ -1,6 +1,6 @@
 # Worker Protocols
 
-Worker protocol behavior is implemented in `src/worker_protocol.zig`, `src/dispatch.zig`, and `src/worker_response.zig`.
+Protocol behavior is implemented in `src/worker_protocol.zig`, `src/dispatch.zig`, and `src/worker_response.zig`.
 
 ## Supported Protocols
 
@@ -10,19 +10,19 @@ Worker protocol behavior is implemented in `src/worker_protocol.zig`, `src/dispa
 
 ## Registration Rules
 
-## `webhook`
+### `webhook`
 
-- URL **must** include explicit path.
-- Example valid URL: `http://127.0.0.1:9999/webhook`
-- Example invalid URL: `http://127.0.0.1:9999`
+- URL must include explicit path
+- valid: `http://127.0.0.1:9999/webhook`
+- invalid: `http://127.0.0.1:9999`
 
-## `openai_chat`
+### `openai_chat`
 
-- Requires `model` field in worker registration/config.
+- requires `model` field in worker registration/config
 
-## Request Shapes Sent By Dispatcher
+## Dispatcher Request Shapes
 
-## `webhook`
+### `webhook`
 
 ```json
 {
@@ -33,7 +33,7 @@ Worker protocol behavior is implemented in `src/worker_protocol.zig`, `src/dispa
 }
 ```
 
-## `api_chat`
+### `api_chat`
 
 ```json
 {
@@ -42,7 +42,7 @@ Worker protocol behavior is implemented in `src/worker_protocol.zig`, `src/dispa
 }
 ```
 
-## `openai_chat`
+### `openai_chat`
 
 ```json
 {
@@ -54,12 +54,12 @@ Worker protocol behavior is implemented in `src/worker_protocol.zig`, `src/dispa
 }
 ```
 
-## Accepted Worker Response Formats
+## Accepted Worker Responses
 
-`nullboiler` parser accepts one of:
+NullBoiler accepts one of:
 
 - `{ "response": "..." }`
 - `{ "reply": "..." }`
 - OpenAI-style `choices[0].message.content`
 
-If worker returns `{ "status": "received" }` without synchronous output, dispatcher treats it as failure for current step (`ack_without_output`).
+A pure ack payload without output (for example `{ "status": "received" }`) is treated as step failure (`ack_without_output`).

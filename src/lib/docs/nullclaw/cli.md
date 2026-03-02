@@ -1,6 +1,17 @@
 # CLI Reference
 
-Top-level command routing lives in `src/main.zig`.
+Top-level command routing is implemented in `src/main.zig`.
+
+## First Commands To Learn
+
+```bash
+nullclaw onboard --interactive
+nullclaw agent -m "hello"
+nullclaw gateway
+nullclaw status
+nullclaw doctor
+nullclaw capabilities --json
+```
 
 ## Top-Level Commands
 
@@ -24,31 +35,7 @@ Top-level command routing lives in `src/main.zig`.
 - `update`
 - `help`
 
-## Core Workflows
-
-### Initialize and run runtime
-
-```bash
-nullclaw onboard --interactive
-nullclaw gateway
-```
-
-### Run one-shot or interactive agent loop
-
-```bash
-nullclaw agent -m "hello"
-nullclaw agent
-```
-
-### Diagnose and inspect
-
-```bash
-nullclaw status
-nullclaw doctor
-nullclaw capabilities --json
-```
-
-## Important Command Groups
+## High-Value Command Groups
 
 ### `cron`
 
@@ -58,36 +45,16 @@ nullclaw capabilities --json
 
 `list`, `start`, `status`, `add`, `remove`
 
-### `skills`
-
-`list`, `install`, `remove`, `info`
-
-### `hardware`
-
-`scan`, `flash`, `monitor`
-
 ### `memory`
 
 `stats`, `count`, `reindex`, `search`, `get`, `list`, `drain-outbox`, `forget`
-
-### `workspace`
-
-`reset-md` with options (`--dry-run`, `--include-bootstrap`, `--clear-memory-md`)
-
-### `models`
-
-`list`, `info`, `benchmark`, `refresh`
-
-### `auth`
-
-`login`, `status`, `logout` (provider-oriented auth management)
 
 ### `service`
 
 `install`, `start`, `stop`, `restart`, `status`, `uninstall`
 
-## Short Notes
+## Important Behavior Notes
 
-- `channel start --all` is intentionally redirected; use `gateway` for full runtime orchestration.
-- For mismatches between config and binary features, prefer `capabilities` output over assumptions.
-- `help` output in CLI is generated from `printUsage()` in `main.zig`.
+- `channel start --all` is intentionally rejected. Use `gateway` for full runtime orchestration.
+- For feature availability questions, `capabilities` is more reliable than config assumptions.
+- `help` output is generated from `printUsage()` in `src/main.zig`.

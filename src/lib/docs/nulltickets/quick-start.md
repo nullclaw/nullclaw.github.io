@@ -1,24 +1,22 @@
 # Quick Start
 
-This flow is aligned with current `nulltickets` behavior in `build.zig`, `src/main.zig`, `src/api.zig`, `src/store.zig`, `src/domain.zig`, and `tests/test_e2e.sh`.
+This flow is aligned with current behavior in `build.zig`, `src/main.zig`, `src/api.zig`, `src/store.zig`, `src/domain.zig`, and `tests/test_e2e.sh`.
 
 ## Prerequisites
 
-- Zig **0.15.2**
+- Zig `0.15.2`
 - `curl`
-- `python3` (optional for JSON extraction in shell scripts)
 
-## Working Flow
-
-### 1. Build + run
+## 1. Clone, Build, Run
 
 ```bash
-cd /Users/igorsomov/Code/nulltickets
+git clone https://github.com/nullclaw/nulltickets.git
+cd nulltickets
 zig build -Doptimize=ReleaseSmall
 ./zig-out/bin/nulltickets --port 7700 --db /tmp/nulltickets.db
 ```
 
-### 2. Health + schema discovery
+## 2. Verify Service And Schema
 
 ```bash
 curl -s http://127.0.0.1:7700/health
@@ -26,7 +24,7 @@ curl -s http://127.0.0.1:7700/openapi.json
 curl -s http://127.0.0.1:7700/.well-known/openapi.json
 ```
 
-### 3. Create pipeline
+## 3. Create Pipeline
 
 ```bash
 curl -s -X POST http://127.0.0.1:7700/pipelines \
@@ -51,7 +49,7 @@ curl -s -X POST http://127.0.0.1:7700/pipelines \
   }'
 ```
 
-### 4. Create task
+## 4. Create Task
 
 ```bash
 curl -s -X POST http://127.0.0.1:7700/tasks \
@@ -64,7 +62,7 @@ curl -s -X POST http://127.0.0.1:7700/tasks \
   }'
 ```
 
-### 5. Claim work as role
+## 5. Claim Lease By Role
 
 ```bash
 curl -s -X POST http://127.0.0.1:7700/leases/claim \
@@ -72,15 +70,9 @@ curl -s -X POST http://127.0.0.1:7700/leases/claim \
   -d '{"agent_id":"researcher-1","agent_role":"researcher","lease_ttl_ms":60000}'
 ```
 
-Claim response includes:
+Claim response includes `lease_id`, `lease_token`, and `run` context.
 
-- `task`
-- `run`
-- `lease_id`
-- `lease_token`
-- `expires_at_ms`
-
-### 6. Work loop with lease token
+## 6. Heartbeat + Event + Transition
 
 Heartbeat:
 
@@ -107,16 +99,15 @@ curl -s -X POST http://127.0.0.1:7700/runs/<RUN_ID>/transition \
   -d '{"trigger":"complete","instructions":"handoff to coding"}'
 ```
 
-## Important Notes
+## Common Failure Modes
 
-- Write endpoints support optional `Idempotency-Key`.
-- Lease-protected run mutations (`events`, `gates`, `transition`, `fail`) require bearer lease token.
-- Transition can be blocked with `409 required_gates_not_passed` when pipeline transition requires gates.
+- `401 unauthorized`: missing/invalid lease bearer token.
+- `410 expired`: lease expired before mutation/heartbeat.
+- `409 required_gates_not_passed`: transition blocked by gate policy.
 
 ## Next Steps
 
-- [Overview](/nulltickets/docs/overview)
-- [Architecture](/nulltickets/docs/architecture)
-- [Pipeline Model](/nulltickets/docs/pipeline-model)
-- [API](/nulltickets/docs/api)
-- [Operations](/nulltickets/docs/operations)
+1. [Pipeline Model](/nulltickets/docs/pipeline-model)
+2. [API](/nulltickets/docs/api)
+3. [Operations](/nulltickets/docs/operations)
+4. [Architecture](/nulltickets/docs/architecture)

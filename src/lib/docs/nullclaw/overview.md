@@ -1,8 +1,25 @@
 # NullClaw Overview
 
-NullClaw is a Zig runtime for autonomous AI agents with configurable providers, channels, tools, memory, and security policy.
+NullClaw is the runtime layer of the ecosystem: it executes prompts, tools, memory operations, and channel I/O.
 
-## Source Snapshot
+## Start In 5 Minutes
+
+1. Follow [Quick Start](/nullclaw/docs/getting-started).
+2. Run one successful command with `nullclaw agent -m "hello"`.
+3. Then add channels, tools, and memory incrementally.
+
+## Choose NullClaw When
+
+- you need a fast local/hosted agent runtime
+- you want provider + tool + memory execution in one process
+- you need channel/gateway delivery without full task orchestration
+
+## Do Not Use NullClaw Alone When
+
+- you need multi-step DAG orchestration across workers (use `nullboiler`)
+- you need long-lived pipeline stages, lease claiming, gates, and queue ops (use `nulltickets`)
+
+## Code-Derived Snapshot
 
 - **CLI commands:** 19 top-level commands in `src/main.zig`
 - **Channels:** 20 entries in `src/channel_catalog.zig`
@@ -10,19 +27,16 @@ NullClaw is a Zig runtime for autonomous AI agents with configurable providers, 
 - **Tool specs:** 33 unique `tool_name` values in `src/tools/*.zig`
 - **Memory backends:** 9 known backends in `src/memory/engines/registry.zig`
 
-## Start Here
+## Product Boundary
+
+- `nullclaw`: runtime execution (providers, tools, memory, channels)
+- `nullboiler`: orchestration graph (runs, steps, workers, retries, approvals)
+- `nulltickets`: task control plane (pipelines, leases, transitions, gates)
+
+## Read Next
 
 1. [Quick Start](/nullclaw/docs/getting-started)
-2. [Architecture](/nullclaw/docs/architecture)
-3. [Configuration](/nullclaw/docs/configuration)
-4. [Channels](/nullclaw/docs/channels)
+2. [Configuration](/nullclaw/docs/configuration)
+3. [Channels](/nullclaw/docs/channels)
+4. [Tools](/nullclaw/docs/tools)
 5. [CLI](/nullclaw/docs/cli)
-
-## Scope
-
-- Runtime modes: `agent`, `gateway`, `service`
-- Channel matrix and capability-gated builds
-- Provider abstraction + compatibility aliases
-- Tool execution with policy constraints
-- Memory engines and retrieval pipeline
-- Pairing, sandbox, and audit/security controls

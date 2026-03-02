@@ -1,6 +1,6 @@
 # WebChannel v1 Protocol
 
-Protocol types are defined in `src/lib/protocol/types.ts`, client parsing in `client.svelte.ts`.
+Protocol types are defined in `src/lib/protocol/types.ts`; runtime behavior in client is implemented in `src/lib/protocol/client.svelte.ts`.
 
 ## Envelope Shape
 
@@ -15,21 +15,21 @@ Protocol types are defined in `src/lib/protocol/types.ts`, client parsing in `cl
 }
 ```
 
-Validation rules in client:
+Client validation requires:
 
 - `v === 1`
-- `type` is one of known event names
-- `session_id` is non-empty string
+- `type` in known event set
+- non-empty `session_id`
 
 ## Event Types
 
-### Client → Runtime
+### Client -> Runtime
 
 - `pairing_request`
 - `user_message`
 - `approval_response`
 
-### Runtime → Client
+### Runtime -> Client
 
 - `pairing_result`
 - `assistant_chunk`
@@ -41,14 +41,12 @@ Validation rules in client:
 
 ## Pairing Flow
 
-1. Connect to WebSocket endpoint.
-2. Send `pairing_request` with pairing code and optional client public key.
-3. Receive `pairing_result` with `access_token` and optional E2E public key.
-4. Derive shared key and persist auth/session info.
+1. open websocket connection
+2. send `pairing_request` (PIN + optional client pub key)
+3. receive `pairing_result` with `access_token`
+4. optionally derive E2E shared key and persist auth state
 
-## E2E Payload
-
-When enabled, message data is sent as:
+## E2E Payload Format
 
 ```json
 {
@@ -59,21 +57,20 @@ When enabled, message data is sent as:
 
 Crypto path in code:
 
-- key exchange: X25519
-- key derivation: SHA-256 over domain-separated input
-- symmetric encryption: ChaCha20-Poly1305
+- X25519 key exchange
+- SHA-256 based key derivation
+- ChaCha20-Poly1305 payload encryption
 
-## Reconnect Logic
+## Reconnect Policy
 
-Client reconnect attempts require:
+Reconnect is attempted only when:
 
-- unexpected socket close
+- close was unexpected
 - previous state was `paired` or `chatting`
-- valid access token present
-- reconnect flag enabled
+- valid access token exists
 
-Backoff parameters in source:
+Backoff parameters:
 
-- base delay: 1000 ms
-- max delay: 30000 ms
-- jitter: 50-100%
+- base delay: `1000ms`
+- max delay: `30000ms`
+- jitter: `delay * (0.5 + Math.random() * 0.5)`

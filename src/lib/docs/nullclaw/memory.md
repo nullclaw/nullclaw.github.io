@@ -1,6 +1,6 @@
 # Memory
 
-Memory runtime is implemented in `src/memory/*` with backend descriptors in `src/memory/engines/registry.zig`.
+Memory runtime lives in `src/memory/*` with backend descriptors in `src/memory/engines/registry.zig`.
 
 ## Known Backend Names
 
@@ -16,9 +16,16 @@ Memory runtime is implemented in `src/memory/*` with backend descriptors in `src
 
 Actual availability depends on build flags (`-Dengines=...`).
 
-## Memory CLI
+## Fast Verification Flow
 
-Implemented in `runMemory` (`src/main.zig`):
+```bash
+nullclaw capabilities
+nullclaw doctor
+nullclaw memory stats
+nullclaw memory search "hello" --limit 5
+```
+
+## Memory CLI Commands
 
 ```bash
 nullclaw memory stats
@@ -31,36 +38,15 @@ nullclaw memory drain-outbox
 nullclaw memory forget <key>
 ```
 
-## Runtime Layers
+## Internal Layers
 
 - `engines/*`: backend implementations
-- `retrieval/*`: candidate fusion and ranking pipeline
-- `lifecycle/*`: hygiene, cache, snapshot and lifecycle helpers
-- `vector/*`: embedding/vector sync utilities and stores
+- `retrieval/*`: ranking/fusion pipeline
+- `lifecycle/*`: hygiene and lifecycle tasks
+- `vector/*`: embedding/vector sync helpers
 
-## Diagnosis Pattern
+## Common Issues
 
-1. Check backend/build reality:
-
-```bash
-nullclaw capabilities
-```
-
-2. Validate config and runtime wiring:
-
-```bash
-nullclaw doctor
-nullclaw memory stats
-```
-
-3. Verify retrieval behavior:
-
-```bash
-nullclaw memory search "<query>" --limit 6
-```
-
-## Notes
-
-- `memory forget` behavior depends on backend mutability.
-- `reindex` and `drain-outbox` are especially relevant when vector sync layers are enabled.
-- If backend init fails, CLI prints specific hints for unknown/disabled backends.
+- backend configured but unavailable: rebuild with needed engine flags
+- forget/reindex behavior differs by backend mutability
+- retrieval quality issues often come from backend index state (run `reindex`)

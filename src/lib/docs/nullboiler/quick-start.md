@@ -1,47 +1,36 @@
 # Quick Start
 
-This flow is aligned with current `nullboiler` behavior in `build.zig`, `src/main.zig`, `src/api.zig`, `src/engine.zig`, `src/dispatch.zig`, and `tests/mock_worker.py`.
+This flow is aligned with current behavior in `build.zig`, `src/main.zig`, `src/api.zig`, `src/engine.zig`, `src/dispatch.zig`, and `tests/mock_worker.py`.
 
 ## Prerequisites
 
-- Zig **0.15.2**
-- Python 3 (for test mock worker)
+- Zig `0.15.2`
+- Python 3
 - `curl`
 
-## Working Flow (From Real Repo Components)
-
-### 1. Build
+## 1. Clone And Build
 
 ```bash
-cd /Users/igorsomov/Code/NullBoiler
+git clone https://github.com/nullclaw/nullboiler.git
+cd nullboiler
 zig build -Doptimize=ReleaseSmall
 ```
 
-### 2. Start a worker endpoint (terminal A)
-
-Use the mock worker shipped in repo tests:
+## 2. Start Mock Worker (Terminal A)
 
 ```bash
 python3 tests/mock_worker.py 9999
 ```
 
-It serves `POST /webhook` and returns JSON with a `response` field, which is exactly what `nullboiler` parser accepts.
+The mock worker accepts `POST /webhook` and returns a synchronous `response` field.
 
-### 3. Start NullBoiler (terminal B)
+## 3. Start NullBoiler (Terminal B)
 
 ```bash
 ./zig-out/bin/nullboiler --port 8080 --db /tmp/nullboiler.db
 ```
 
-Health check:
-
-```bash
-curl -s http://127.0.0.1:8080/health
-```
-
-### 4. Register worker
-
-`webhook` protocol requires explicit URL path.
+## 4. Register Worker
 
 ```bash
 curl -s -X POST http://127.0.0.1:8080/workers \
@@ -56,7 +45,7 @@ curl -s -X POST http://127.0.0.1:8080/workers \
   }'
 ```
 
-### 5. Create a run
+## 5. Create Run
 
 ```bash
 curl -s -X POST http://127.0.0.1:8080/runs \
@@ -74,38 +63,40 @@ curl -s -X POST http://127.0.0.1:8080/runs \
   }'
 ```
 
-### 6. Inspect run + steps
+## 6. Verify Run Progress
 
 ```bash
+curl -s http://127.0.0.1:8080/health
 curl -s http://127.0.0.1:8080/runs
-curl -s http://127.0.0.1:8080/runs/<RUN_ID>
 curl -s http://127.0.0.1:8080/runs/<RUN_ID>/steps
 curl -s http://127.0.0.1:8080/runs/<RUN_ID>/events
 ```
 
-## Approval + Signal Quick Check
+## Optional: Auth + Idempotency
 
-Approval steps move to `waiting_approval` and are resumed by API calls:
+Enable token:
 
 ```bash
-curl -s -X POST http://127.0.0.1:8080/runs/<RUN_ID>/steps/<STEP_ID>/approve
-curl -s -X POST http://127.0.0.1:8080/runs/<RUN_ID>/steps/<STEP_ID>/reject
-curl -s -X POST http://127.0.0.1:8080/runs/<RUN_ID>/steps/<STEP_ID>/signal \
-  -H 'Content-Type: application/json' \
-  -d '{"signal":"deploy_ready","data":{"version":"1.0"}}'
+./zig-out/bin/nullboiler --token my-secret
 ```
 
-## Important Notes
+Then call protected endpoints with:
 
-- Optional API auth is enabled by `--token` (or config `api_token`).
-- With auth enabled, all endpoints except `/health` and `/metrics` require `Authorization: Bearer <token>`.
-- `POST /runs` supports idempotency by `idempotency_key` in body.
-- Workflow payload is validated before DB writes (duplicate step ids, unknown dependencies, missing required fields for specific step types).
+```bash
+-H 'Authorization: Bearer my-secret'
+```
+
+Run creation idempotency is supported via request header (`Idempotency-Key`) or body field (`idempotency_key`).
+
+## Common Failure Modes
+
+- `webhook protocol requires explicit URL path`: use `/webhook`, not only host:port.
+- run has no progress: worker tags do not match step `worker_tags`.
+- `401 unauthorized`: token mode enabled but bearer header missing/invalid.
 
 ## Next Steps
 
-- [Overview](/nullboiler/docs/overview)
-- [Architecture](/nullboiler/docs/architecture)
-- [Step Types](/nullboiler/docs/step-types)
-- [Worker Protocols](/nullboiler/docs/worker-protocols)
-- [API](/nullboiler/docs/api)
+1. [Step Types](/nullboiler/docs/step-types)
+2. [Worker Protocols](/nullboiler/docs/worker-protocols)
+3. [API](/nullboiler/docs/api)
+4. [Operations](/nullboiler/docs/operations)

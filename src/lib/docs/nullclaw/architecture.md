@@ -1,89 +1,56 @@
 # Architecture
 
-NullClaw is structured as modular runtime components connected through typed interfaces and registries.
+NullClaw is a modular runtime where channel/gateway input is routed into an agent loop, then through providers and tools, and finally back to output channels.
 
-## Core Runtime Entry Points
+## Mental Model
 
-- `src/main.zig`: CLI command routing and command handlers
-- `src/daemon.zig`: long-running gateway orchestration loop
-- `src/gateway.zig`: HTTP/WebSocket ingress and API endpoints
-- `src/agent/root.zig`: agent loop and tool-calling logic
+- ingress: channels + gateway
+- execution: agent loop + provider client
+- side effects: tools + memory
+- control: policy + sandbox + pairing
 
-## Primary Module Domains
+## Core Entry Points
 
-- `src/providers/*`: model providers and provider factory/runtime bundle
-- `src/channels/*`: channel integrations and dispatch logic
-- `src/tools/*`: tool interfaces and implementations
-- `src/memory/*`: memory engines, retrieval, lifecycle, vector layers
-- `src/security/*`: policy, pairing, sandbox backends, audit
+- `src/main.zig`: CLI routing and command handlers
+- `src/daemon.zig`: long-running gateway orchestration
+- `src/gateway.zig`: HTTP/WebSocket ingress
+- `src/agent/root.zig`: agent loop and tool-calling behavior
+
+## Runtime Domains
+
+- `src/providers/*`: model providers and compatibility factory
+- `src/channels/*`: channel integrations and dispatch
+- `src/tools/*`: tool interface + implementations
+- `src/memory/*`: engines, retrieval, lifecycle, vector helpers
+- `src/security/*`: policy, pairing, sandbox, audit
 - `src/channel_catalog.zig`: source-of-truth channel registry
-- `src/capabilities.zig`: runtime capability manifest generation
+- `src/capabilities.zig`: effective runtime capability view
 
 ## Request Flow
 
-1. Inbound message enters via channel or gateway endpoint.
-2. Channel/gateway resolves routing/session context.
-3. Agent loop builds prompt + state and selects provider path.
-4. Provider response may trigger tool calls.
-5. Tool dispatcher executes allowed tools under policy constraints.
-6. Tool results feed back into agent loop until final response.
-7. Outbound response is published back through channel/gateway.
+1. Message enters via channel or gateway endpoint.
+2. Session/routing context is resolved.
+3. Agent loop composes context and calls provider.
+4. Tool calls execute under policy/sandbox constraints.
+5. Tool results are fed back into loop.
+6. Final response is emitted back to channel/gateway.
 
-## Provider Layer
+## Why Capabilities Matter
 
-Provider selection is handled in `src/providers/factory.zig` and `src/providers/runtime_bundle.zig`:
+Config alone is not enough: build flags can remove channels/tools/memory backends.
 
-- Core implementations: `anthropic`, `openai`, `openrouter`, `ollama`, `gemini`, `claude-cli`, `codex-cli`, `openai-codex`
-- Compatible alias table: large set of endpoint aliases mapped to OpenAI-compatible transport
-- Reliability wrapper: fallback/retry orchestration from config
+Use:
 
-## Channel Layer
+```bash
+nullclaw capabilities
+nullclaw capabilities --json
+```
 
-Channel metadata is centralized in `src/channel_catalog.zig`:
+to inspect actual runtime reality.
 
-- 20 channel entries (CLI + messaging/web integrations)
-- Build-enabled flags controlled by `build_options`
-- Runtime/configured status calculation and lifecycle mode hints
+## Extension Points
 
-## Tool Layer
-
-`src/tools/root.zig` provides:
-
-- Common tool interface (`Tool` + `ToolVTable`)
-- Core tool assembly (`allTools`, `defaultTools`, `subagentTools`)
-- Memory tool binding to runtime memory engines
-
-Tool availability depends on both build and config (see `src/capabilities.zig`).
-
-## Memory Layer
-
-`src/memory/engines/registry.zig` defines backend descriptors and capabilities.
-
-Known backend names:
-
-- `none`, `markdown`, `memory`, `api`, `sqlite`, `lucid`, `redis`, `lancedb`, `postgres`
-
-Runtime search/retrieval pipeline and lifecycle management live under:
-
-- `src/memory/retrieval/*`
-- `src/memory/lifecycle/*`
-- `src/memory/vector/*`
-
-## Security Layer
-
-`src/security/*` contains:
-
-- Pairing and token checks
-- Command/path policy evaluation
-- Sandbox backends (`landlock`, `firejail`, `bubblewrap`, `docker`, auto-detect)
-- Audit/tracking modules
-
-## Capability Introspection
-
-`nullclaw capabilities` and `nullclaw capabilities --json` expose:
-
-- channel availability and configuration state
-- memory engine availability
-- estimated/loaded tool sets
-
-Use this output when validating deployment reality vs configuration intent.
+- new provider: add provider module + factory registration
+- new channel: implement channel interface + catalog entry
+- new tool: add tool module + tool assembly wiring
+- new memory backend: add engine descriptor + runtime wiring

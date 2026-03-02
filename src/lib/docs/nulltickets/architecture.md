@@ -1,62 +1,42 @@
 # Architecture
 
+NullTickets is a focused HTTP + SQLite control plane with strict domain validation and lease-aware mutation paths.
+
 ## Runtime Layout
 
 From `src/main.zig`:
 
-- Simple HTTP server bound to `127.0.0.1:<port>`
-- SQLite-backed store initialization
-- Request routing through `api.handleRequest`
+- bind address is fixed to `127.0.0.1`
+- `--port` and `--db` CLI options
+- API routing via `api.handleRequest`
 
-CLI flags:
+## Component Responsibilities
 
-- `--port` (default `7700`)
-- `--db` (default `nulltickets.db`)
-- `--version`
+- `src/api.zig`: routing, headers, auth checks, response/error shaping
+- `src/domain.zig`: pipeline definition validation rules
+- `src/store.zig`: transactional persistence and selection logic
 
-## API Layer (`src/api.zig`)
+## Claim/Lease Model
 
-Responsible for:
+1. agent calls `POST /leases/claim` with role context
+2. server returns active task/run and lease token
+3. lease-protected mutations require `Authorization: Bearer <lease_token>`
+4. agent heartbeats lease for long-running work
 
-- path/method routing
-- header extraction (`Authorization`, `Idempotency-Key`)
-- payload parsing
-- response shaping and error mapping
+## Data Model
 
-Groups:
+From `src/migrations/001_init.sql`:
 
-- health/openapi
-- pipeline APIs
-- task APIs (including dependencies + assignments)
-- lease + run mutation APIs
-- artifacts + ops
-- OTLP ingest endpoints
+- pipelines/tasks/runs/leases/events/artifacts core
+- dependencies, assignments, gate results
+- idempotency keys
+- OTLP batch/span storage
 
-## Domain Validation (`src/domain.zig`)
+## Operational Implication
 
-Pipeline definition checks:
+If automation stalls, inspect in this order:
 
-- initial state exists and is known
-- transitions reference known states
-- at least one terminal state
-- each non-terminal state has outgoing transition
-
-## Store Layer (`src/store.zig`)
-
-Implements:
-
-- transactional task creation + relations
-- claim selection by role, priority, dependencies, assignments, eligibility
-- lease issue/heartbeat/token validation
-- transition/fail behavior with retry/dead-letter logic
-- gate persistence + checks
-- paginated list APIs with cursor contract
-
-## Data Model (`src/migrations/001_init.sql`)
-
-Main tables:
-
-- `pipelines`, `tasks`, `runs`, `leases`, `events`, `artifacts`
-- `task_dependencies`, `gate_results`, `task_assignments`
-- `idempotency_keys`
-- `otlp_batches`, `otlp_spans`
+1. `GET /ops/queue`
+2. `GET /tasks?stage=...`
+3. lease expiry/heartbeat behavior
+4. gate requirements on target transitions

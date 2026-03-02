@@ -1,10 +1,8 @@
 # Providers
 
-Provider routing is implemented in `src/providers/factory.zig` and `src/providers/runtime_bundle.zig`.
+Provider routing is implemented in `src/providers/factory.zig` and runtime wiring in `src/providers/runtime_bundle.zig`.
 
 ## Core Provider Keys
-
-Core provider keys classified directly in factory logic:
 
 - `anthropic`
 - `openai`
@@ -18,27 +16,15 @@ Core provider keys classified directly in factory logic:
 
 ## OpenAI-Compatible Alias Table
 
-`factory.zig` also defines a large compatibility table (89 aliases in current source), mapped to OpenAI-compatible transport with provider-specific flags.
+`factory.zig` contains a large compatibility table (89 aliases in current source) mapped to OpenAI-compatible transport.
 
-Examples from the table:
+Typical aliases include cloud endpoints (`groq`, `mistral`, `deepseek`, `xai`) and local gateways (`lmstudio`, `vllm`, `llama.cpp`, `sglang`).
 
-- `groq`, `mistral`, `deepseek`, `xai`, `perplexity`, `cohere`
-- `venice`, `together`, `fireworks`, `huggingface`, `litellm`
-- `qwen`, `moonshot`, `glm`, `z.ai`, `minimax`, regional variants
-- local endpoints like `lmstudio`, `vllm`, `llama.cpp`, `sglang`
+## Selection Flow
 
-## Custom Endpoint Pattern
-
-For an arbitrary compatible endpoint, use `custom:` style naming or explicit `base_url` in provider config.
-
-## Provider Selection
-
-Default model/provider path is resolved from:
-
-- `agents.defaults.model.primary`
-- provider map in `models.providers`
-
-At runtime, reliable fallback wrappers can be applied through reliability configuration.
+1. Choose provider credentials in `models.providers`.
+2. Set default route in `agents.defaults.model.primary`.
+3. Run `doctor` and `models list` to validate connectivity.
 
 ## Useful Commands
 
@@ -46,10 +32,11 @@ At runtime, reliable fallback wrappers can be applied through reliability config
 nullclaw models list
 nullclaw models info <model>
 nullclaw models refresh
+nullclaw doctor
 ```
 
-## Troubleshooting
+## Common Issues
 
-- Unknown provider in `onboard`: check canonical provider key spelling.
-- Provider configured but auth failing: run `nullclaw doctor`.
-- Model not available on endpoint: verify provider/model pair and endpoint-specific model catalog.
+- Unknown provider key in config: normalize to canonical keys.
+- Auth failures: check token field and endpoint base URL.
+- Model route valid syntactically but unavailable on provider: refresh model catalog and re-check provider/model pair.

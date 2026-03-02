@@ -1,6 +1,6 @@
 # Testing
 
-Testing is implemented with Vitest and Testing Library across protocol, session, and UI layers.
+Chat UI tests use Vitest + Testing Library across protocol, session, and UI layers.
 
 ## Commands
 
@@ -23,17 +23,17 @@ npm run check
 - `src/lib/theme.test.ts`
 - `src/lib/ui/preferences.test.ts`
 
-## Coverage Focus
+## What These Tests Protect
 
-- envelope construction/validation
-- E2E key and encrypt/decrypt behavior
-- connect/pair/send/reconnect client flow
-- session timeline updates for chunk/final/tool/approval/error events
+- protocol envelope construction/validation
+- E2E key + encryption/decryption correctness
+- client connect/pair/send/reconnect lifecycle
+- session timeline updates for stream/tool/approval/error events
 - auth storage TTL cleanup behavior
-- pairing/status/theming UI interactions
+- pairing/status/theme UI interactions
 
 ## Pre-Merge Minimum
 
 1. `npm run test`
 2. `npm run check`
-3. manual smoke: pair, chat, tool event render, logout, restore
+3. manual smoke: pair, send message, see streamed output, logout, reconnect

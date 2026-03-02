@@ -1,84 +1,75 @@
 # Quick Start
 
-This page is aligned with current runtime behavior in `build.zig`, `src/main.zig`, `src/onboard.zig`, `src/config.zig`, and `src/channels/web.zig`.
+This page is aligned with current behavior in `build.zig`, `build.zig.zon`, `src/main.zig`, `src/onboard.zig`, `src/config.zig`, and `src/channels/web.zig`.
 
 ## Prerequisites
 
-- Zig **0.15.2**
+- Zig `0.15.2`
 - Git
-- Provider API key (for example OpenRouter/OpenAI/Anthropic)
+- Any provider API key (for example OpenRouter/OpenAI/Anthropic)
 
-## Core Bot In Two Commands
-
-After building once, the fastest working flow is:
+## Fastest Working Path (CLI Agent)
 
 ```bash
+git clone https://github.com/nullclaw/nullclaw.git
+cd nullclaw
+zig build -Doptimize=ReleaseSmall
+
 ./zig-out/bin/nullclaw onboard --provider openrouter --api-key <YOUR_API_KEY>
 ./zig-out/bin/nullclaw agent -m "Hello from nullclaw"
 ```
 
-Build command (first time only):
+## Verify It Works
 
 ```bash
-zig build -Doptimize=ReleaseSmall
+./zig-out/bin/nullclaw status
+./zig-out/bin/nullclaw doctor
+./zig-out/bin/nullclaw capabilities --json
 ```
 
-## Core Runtime + Chat UI (Working Flow)
+If `doctor` passes and `agent` returns text, your base runtime is healthy.
 
-`nullclaw gateway` alone is not enough for Chat UI. You also need a configured `channels.web` account.
+## Add Chat UI (WebChannel)
 
-### 1. Initialize config
-
-```bash
-./zig-out/bin/nullclaw onboard --provider openrouter --api-key <YOUR_API_KEY>
-```
-
-### 2. Add `channels.web` to `~/.nullclaw/config.json`
-
-Add this under `channels`:
+`nullclaw gateway` alone is not enough for browser pairing. Add `channels.web` to `~/.nullclaw/config.json`.
 
 ```json
 {
-  "web": {
-    "accounts": {
-      "default": {
-        "listen": "127.0.0.1",
-        "port": 32123,
-        "path": "/ws",
-        "message_auth_mode": "pairing"
+  "channels": {
+    "web": {
+      "accounts": {
+        "default": {
+          "listen": "127.0.0.1",
+          "port": 32123,
+          "path": "/ws",
+          "message_auth_mode": "pairing"
+        }
       }
     }
   }
 }
 ```
 
-### 3. Start runtime
+Run runtime:
 
 ```bash
 ./zig-out/bin/nullclaw gateway
 ```
 
-### 4. Start Chat UI (`nullclaw-chat-ui` repo)
+In Chat UI pairing screen use:
 
-```bash
-npm install
-npm run dev
-```
+- endpoint: `ws://127.0.0.1:32123/ws`
+- PIN (local pairing mode): `123456`
 
-### 5. Pair in browser
+## Common Failure Modes
 
-- URL: `ws://127.0.0.1:32123/ws`
-- Pairing PIN (local pairing mode): `123456`
-
-## Important Notes
-
-- `onboard --interactive` and `onboard --channels-only` do not currently configure `channels.web`.
-- Use `nullclaw gateway` for full runtime processing. `channel start` is not a substitute for full runtime orchestration.
-- If you built without web channel support, rebuild with `-Dchannels=all` or include `web` in `-Dchannels=...`.
+- `No config found`: run `nullclaw onboard` first.
+- Chat UI cannot pair: `channels.web` is missing or disabled at build time.
+- Feature configured but unavailable: rebuild with needed feature flags (`-Dchannels=...`, `-Dengines=...`).
 
 ## Next Steps
 
-- [Architecture](/nullclaw/docs/architecture)
-- [Configuration](/nullclaw/docs/configuration)
-- [Channels](/nullclaw/docs/channels)
-- [CLI](/nullclaw/docs/cli)
+1. [Configuration](/nullclaw/docs/configuration)
+2. [Channels](/nullclaw/docs/channels)
+3. [Tools](/nullclaw/docs/tools)
+4. [Architecture](/nullclaw/docs/architecture)

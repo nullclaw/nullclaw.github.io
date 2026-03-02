@@ -1,30 +1,23 @@
 # Security
 
-Security logic is implemented under `src/security/*` and enforced during runtime/tool execution.
+Security controls are implemented in `src/security/*` and enforced during runtime/tool execution.
 
-## Security Components
+## Core Security Modules
 
-- `pairing.zig`: pairing/token flow and guardrails
-- `policy.zig`: command/path risk policy and approval logic
-- `sandbox.zig` + backend adapters:
-  - `landlock.zig`
-  - `firejail.zig`
-  - `bubblewrap.zig`
-  - `docker.zig`
-  - `detect.zig` (backend selection)
-- `audit.zig`: security event tracking support
-- `secrets.zig`: secret storage helpers
+- `pairing.zig`: pairing and token guards
+- `policy.zig`: command/path risk controls
+- `sandbox.zig` + adapters (`landlock`, `firejail`, `bubblewrap`, `docker`, `detect`)
+- `audit.zig` and `tracker.zig`: security-relevant event tracking
+- `secrets.zig`: secret handling helpers
 
-## Default Safety Posture
+## Default Security Posture
 
-From config defaults and command behavior:
+- local-first bind defaults
+- pairing required by default
+- policy checks before sensitive operations
+- path and command restrictions on tool execution
 
-- local gateway binding (`127.0.0.1`)
-- pairing required unless explicitly disabled
-- policy checks before sensitive command execution
-- workspace/path restrictions for file and shell tools
-
-## Operational Checks
+## Operational Verification
 
 ```bash
 nullclaw doctor
@@ -32,9 +25,7 @@ nullclaw status
 nullclaw capabilities --json
 ```
 
-Use these to verify effective security posture in your running build.
-
-## High-Impact Config Areas
+## High-Impact Config Keys
 
 - `gateway.require_pairing`
 - `gateway.allow_public_bind`
@@ -43,8 +34,8 @@ Use these to verify effective security posture in your running build.
 - `security.sandbox.backend`
 - `security.audit.*`
 
-## Practical Guidance
+## Production Guidance
 
-- Keep pairing enabled in non-local environments.
-- Avoid wildcard command/path policies unless explicitly required.
-- Treat `capabilities` output as the source of truth for what can execute in the current binary.
+- keep pairing enabled outside trusted localhost workflows
+- avoid broad command/path allowlists
+- treat `capabilities` output as final authority for what can execute

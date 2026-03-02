@@ -25,27 +25,13 @@ Channel metadata is defined in `src/channel_catalog.zig`.
 - `nostr`
 - `web`
 
-## Runtime Behavior
+## Start Behavior
 
 - `nullclaw channel start <channel>` starts a single channel path.
 - `nullclaw channel start --all` is intentionally rejected.
-- Use `nullclaw gateway` to run full runtime orchestration.
+- `nullclaw gateway` is the correct command for full runtime orchestration.
 
-## Lifecycle Modes
-
-Catalog listener modes:
-
-- `none`
-- `polling`
-- `gateway_loop`
-- `webhook_only`
-- `send_only`
-
-Mode controls daemon supervision and start behavior.
-
-## Web Channel For Chat UI
-
-Chat UI depends on `channels.web` (not just gateway HTTP port).
+## WebChannel For Chat UI
 
 Minimal working local config:
 
@@ -66,15 +52,15 @@ Minimal working local config:
 }
 ```
 
-Implementation details from `src/config_types.zig` + `src/channels/web.zig`:
+Code-derived behavior (`src/config_types.zig`, `src/channels/web.zig`):
 
 - defaults: `transport=local`, `path=/ws`, `message_auth_mode=pairing`
-- local pairing code is fixed to `123456`
-- if you bind to non-loopback (`0.0.0.0`), websocket upgrade token is required
-- `message_auth_mode=token` is only valid for local transport
+- local pairing PIN is fixed to `123456`
+- non-loopback bind requires upgrade token
+- `message_auth_mode=token` is valid only for local transport
 
 ## Build Gating
 
 Channel support is compile-time controlled by `-Dchannels=...` in `build.zig`.
 
-If a channel is configured but disabled in the binary, runtime prints rebuild hints.
+If config contains disabled channels, runtime emits rebuild hints.

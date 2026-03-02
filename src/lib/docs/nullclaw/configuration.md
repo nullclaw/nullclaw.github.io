@@ -1,8 +1,8 @@
 # Configuration
 
-NullClaw loads config from `~/.nullclaw/config.json` (`src/config.zig` + `src/config_parse.zig`).
+NullClaw reads config from `~/.nullclaw/config.json` (`src/config.zig`, `src/config_parse.zig`).
 
-## Minimal Bot Config
+## Minimal Config That Runs
 
 ```json
 {
@@ -27,59 +27,52 @@ NullClaw loads config from `~/.nullclaw/config.json` (`src/config.zig` + `src/co
 }
 ```
 
-## Chat UI Requires `channels.web`
-
-Add this under `channels` for browser WebSocket clients:
+## Add Chat UI Support (`channels.web`)
 
 ```json
 {
-  "web": {
-    "accounts": {
-      "default": {
-        "listen": "127.0.0.1",
-        "port": 32123,
-        "path": "/ws",
-        "message_auth_mode": "pairing"
+  "channels": {
+    "web": {
+      "accounts": {
+        "default": {
+          "listen": "127.0.0.1",
+          "port": 32123,
+          "path": "/ws",
+          "message_auth_mode": "pairing"
+        }
       }
     }
   }
 }
 ```
 
-Without `channels.web`, Chat UI cannot pair even if `nullclaw gateway` is running.
+Without this, Chat UI cannot pair.
 
-## Main Sections
+## Key Sections
 
-- `models.providers`: provider credentials and optional base URLs
-- `agents.defaults.model.primary`: default model route (`provider/model`)
-- `channels`: channel accounts and policies
-- `memory`: backend + retrieval/lifecycle settings
-- `autonomy`: command/path limits and approval behavior
-- `security`: sandbox and audit controls
-- `gateway`: host/port/pairing/public-bind behavior
-- `runtime`: runtime type and docker sandbox options
+- `models.providers`: credentials and endpoint settings
+- `agents.defaults.model.primary`: default provider/model route
+- `channels`: channel accounts and channel policy
+- `memory`: backend and memory behavior
+- `autonomy`: tool/path/command restrictions
+- `security`: sandbox and audit settings
+- `gateway`: bind, pairing, and public bind behavior
 
-## Build vs Config
-
-Config values do not guarantee runtime support if feature flags were excluded at build time.
-
-Typical mismatch cases:
-
-- channel configured but excluded via `-Dchannels=...`
-- memory backend configured but excluded via `-Dengines=...`
-
-Use:
-
-```bash
-nullclaw capabilities
-nullclaw capabilities --json
-```
-
-## Validation
+## Verify Effective Config
 
 ```bash
 nullclaw doctor
 nullclaw status
+nullclaw capabilities --json
 ```
 
-`doctor` is the fastest check for broken provider/channel setups.
+## Build Flags vs Config
+
+Config may declare features missing from your binary.
+
+Typical mismatch:
+
+- configured channel removed via `-Dchannels=...`
+- configured memory backend removed via `-Dengines=...`
+
+Use `capabilities` as source of truth.

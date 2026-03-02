@@ -2,14 +2,21 @@
 
 This flow is validated against current `nullclaw-chat-ui` and `nullclaw` source behavior.
 
-## 1. Start NullClaw Runtime (Core Repo)
+## Prerequisites
+
+- Node.js 20+
+- npm 10+
+- running NullClaw runtime with working provider config
+
+## 1. Start NullClaw Runtime
 
 ```bash
+# in nullclaw repo
 zig build -Doptimize=ReleaseSmall
 ./zig-out/bin/nullclaw onboard --provider openrouter --api-key <YOUR_API_KEY>
 ```
 
-Add `channels.web` to `~/.nullclaw/config.json`:
+Ensure `channels.web` exists in `~/.nullclaw/config.json`:
 
 ```json
 {
@@ -28,15 +35,17 @@ Add `channels.web` to `~/.nullclaw/config.json`:
 }
 ```
 
-Start runtime:
+Run runtime:
 
 ```bash
 ./zig-out/bin/nullclaw gateway
 ```
 
-## 2. Start Chat UI (UI Repo)
+## 2. Start Chat UI
 
 ```bash
+git clone https://github.com/nullclaw/nullclaw-chat-ui.git
+cd nullclaw-chat-ui
 npm install
 npm run dev
 ```
@@ -45,13 +54,20 @@ Open `http://localhost:5173`.
 
 ## 3. Pair
 
-In the UI pairing screen, enter:
+In pairing screen:
 
-- Endpoint: `ws://127.0.0.1:32123/ws`
+- endpoint: `ws://127.0.0.1:32123/ws`
 - PIN: `123456`
 
-## Notes
+## Verify It Works
 
-- UI endpoint is user-entered (default value in `PairingScreen.svelte` is `ws://127.0.0.1:32123/ws`).
-- Pairing requires an active `channels.web` listener.
-- Local `channels.web` pairing mode currently uses fixed PIN `123456`.
+- connection state moves `connecting -> pairing -> paired`
+- sending a message produces streamed timeline entries
+- reconnect keeps session if token is still valid
+
+## Common Failure Modes
+
+- `channels.web` not configured in NullClaw
+- wrong endpoint scheme/host/port/path
+- runtime unavailable on configured endpoint
+- token invalid/expired (`unauthorized` event)

@@ -1,6 +1,6 @@
 # Development
 
-## Requirements
+## Prerequisites
 
 - Node.js 20+
 - npm 10+
@@ -16,11 +16,7 @@ npm run dev
 
 Default local URL: `http://localhost:5173`
 
-For end-to-end runtime connection, complete [Quick Start](/chat-ui/docs/quick-start).
-
-## NPM Scripts
-
-From `package.json`:
+## Most Useful Scripts
 
 - `npm run dev`
 - `npm run build`
@@ -30,7 +26,7 @@ From `package.json`:
 - `npm run check`
 - `npm run check:watch`
 
-## Source Structure
+## Source Map
 
 ```text
 src/
@@ -39,13 +35,13 @@ src/
   lib/protocol/               protocol types/client/crypto
   lib/session/                controller + auth storage
   lib/stores/                 session timeline store
-  lib/ui/                     UI preference helpers
-  lib/theme.ts                theme/effects handling
+  lib/ui/                     preference helpers
+  lib/theme.ts                theme/effects logic
 ```
 
-## Feature Development Flow
+## Safe Feature Workflow
 
-1. Update protocol/store/controller logic first.
-2. Bind UI component behavior to updated state contracts.
-3. Add/update tests in matching layer.
-4. Run `npm run test` and `npm run check`.
+1. update protocol/store/controller contracts first
+2. connect UI components to updated contracts
+3. add or update tests near changed layer
+4. run `npm run test` and `npm run check`

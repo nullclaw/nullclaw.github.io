@@ -1,8 +1,8 @@
 # Theming
 
-Theme management is implemented in `src/lib/theme.ts`.
+Theme behavior is implemented in `src/lib/theme.ts`.
 
-## Supported Theme Values
+## Supported Themes
 
 - `matrix`
 - `dracula`
@@ -17,14 +17,12 @@ Theme management is implemented in `src/lib/theme.ts`.
 
 ## Theme API
 
-`theme.ts` exports:
-
 - `loadTheme()` / `saveTheme()` / `applyTheme()`
 - `loadEffectsEnabled()` / `saveEffectsEnabled()` / `applyEffectsEnabled()`
-- `SUPPORTED_THEMES` and `THEME_OPTIONS`
+- exported `SUPPORTED_THEMES` and `THEME_OPTIONS`
 
-## Behavior Notes
+## Behavior Rules
 
-- unknown stored theme values are coerced to fallback (`matrix` by default)
-- effects flag toggles `effects-disabled` class on `<body>`
-- theme class prefix is `theme-<name>`
+- unknown stored theme values are coerced to fallback (`matrix`)
+- body gets class `theme-<name>`
+- effects toggle controls `effects-disabled` class on `<body>`

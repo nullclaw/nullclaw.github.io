@@ -1,34 +1,39 @@
 # Overview
 
-## What NullTickets Is
+NullTickets is the task control plane for autonomous delivery systems. It stores pipeline definitions, tasks, runs, leases, events, artifacts, and queue health.
 
-`nulltickets` is a task control plane for autonomous software workflows.
+## Start In 5 Minutes
 
-It manages:
+1. Follow [Quick Start](/nulltickets/docs/quick-start).
+2. Create one pipeline and one task.
+3. Claim a lease and perform one transition.
 
-- pipeline definitions
-- task lifecycle by stage
-- role-based claim + lease loop
-- transition and gate enforcement
-- artifacts and queue observability
+## Choose NullTickets When
+
+- you need persistent stage-based lifecycle for work items
+- agents must claim work by role with lease tokens
+- transitions must be controlled by gates and dependencies
+- you need auditable task/run history and queue observability
+
+## Do Not Use NullTickets Alone When
+
+- you need orchestration DAG semantics for step graphs (use `nullboiler`)
+- you need direct prompt/tool/provider runtime execution (use `nullclaw`)
 
 ## What It Owns
 
-- Persistent task state (`tasks`, `runs`, `leases`, `events`, `artifacts`)
-- Stage transitions and guardrails (`required_gates`, optimistic stage/version checks)
-- Claim arbitration by agent role and assignment/dependency constraints
-
-## What It Does Not Own
-
-- Prompt execution against LLM providers (that is `nullclaw`)
-- Step DAG scheduling and protocol dispatch (that is `nullboiler`)
+- stage lifecycle and transition guardrails
+- role-based claim + lease model
+- retries/dead-letter behavior for tasks
+- artifacts and operations queue metrics
 
 ## Naming
 
-In ecosystem discussions, this component may also be called **nulltracker**.
+In ecosystem communication, this component may also be called **nulltracker**.
 
-## Typical Use Cases
+## Read Next
 
-- Team-level backlog automation with agent roles (`researcher`, `coder`, `reviewer`)
-- Controlled stage progression with quality gates before merge/release
-- Auditable autonomous loops with events, retries, dead-lettering, and artifact records
+1. [Quick Start](/nulltickets/docs/quick-start)
+2. [Pipeline Model](/nulltickets/docs/pipeline-model)
+3. [API](/nulltickets/docs/api)
+4. [Operations](/nulltickets/docs/operations)

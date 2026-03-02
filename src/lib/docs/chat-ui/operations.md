@@ -1,8 +1,8 @@
 # Operations
 
-This project builds as a static app and depends on an external NullClaw `channels.web` endpoint.
+Chat UI is a static web app and depends on an external NullClaw `channels.web` websocket endpoint.
 
-## Production Build
+## Build Pipeline
 
 ```bash
 npm ci
@@ -15,41 +15,39 @@ Output directory: `build/`
 
 ## Deployment Model
 
-- static hosting is sufficient
-- configure SPA fallback to `index.html`
-- runtime endpoint is entered by user at pairing time
+- static hosting is enough
+- enable SPA fallback to `index.html`
+- runtime websocket endpoint is entered by operator during pairing
 
-## Runtime Dependency Contract
+## Runtime Contract
 
-Chat UI expects reachable WebSocket endpoint matching `channels.web` config in NullClaw.
+Expected local endpoint values:
 
-Typical local values:
+- `ws://127.0.0.1:32123/ws`
+- local pairing PIN: `123456`
 
-- endpoint: `ws://127.0.0.1:32123/ws`
-- local pairing PIN (`message_auth_mode=pairing`): `123456`
-
-Typical local flow:
+Typical local two-terminal flow:
 
 ```bash
-# in nullclaw repo
+# terminal 1 (nullclaw)
 ./zig-out/bin/nullclaw gateway
 
-# in nullclaw-ui repo
+# terminal 2 (chat-ui)
 npm run dev
 ```
 
-## Stored Client Data
+## Client-Side Stored Keys
 
 - `nullclaw_ui_auth_v1`
 - `nullclaw_ui_theme`
 - `nullclaw_ui_effects`
 
-`auth-storage` enforces expiry and drops invalid payloads.
+Auth storage enforces expiry and removes invalid payloads.
 
 ## Troubleshooting Checklist
 
-- `channels.web` not configured in core runtime
-- wrong `ws://` / `wss://` endpoint
-- runtime not running or endpoint unreachable
-- token rejected (`unauthorized` event)
-- missing SPA fallback in host config
+- `channels.web` absent or misconfigured in NullClaw
+- wrong websocket URL (scheme/host/port/path)
+- runtime not reachable from browser host
+- `unauthorized` protocol errors
+- missing SPA fallback in production host config

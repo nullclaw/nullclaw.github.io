@@ -1,8 +1,8 @@
 # Step Types
 
-Step type enum is defined in `src/types.zig` and executed by `src/engine.zig`.
+Step type enum is defined in `src/types.zig`; validation rules are in `src/workflow_validation.zig`; execution behavior is in `src/engine.zig`.
 
-## Available Types
+## Supported Types
 
 - `task`
 - `fan_out`
@@ -19,26 +19,24 @@ Step type enum is defined in `src/types.zig` and executed by `src/engine.zig`.
 - `group_chat`
 - `saga`
 
-## Validation-Enforced Requirements (Create Run)
+## Validation Rules On `POST /runs`
 
-`src/workflow_validation.zig` enforces specific fields for some types:
+- step ids must be unique and non-empty
+- `depends_on` must be an array of known step ids
+- duplicate dependency entries are rejected
+- `retry.max_attempts` and `timeout_ms` must be positive integers
+
+Type-specific requirements:
 
 - `loop`: requires `body`
 - `sub_workflow`: requires `workflow`
-- `wait`: requires one of `duration_ms`, `until_ms`, or `signal`
+- `wait`: requires one of `duration_ms`, `until_ms`, `signal`
 - `router`: requires `routes`
 - `saga`: requires `body`
 - `debate`: requires `count`
 - `group_chat`: requires `participants`
 
-Also enforced:
-
-- unique non-empty step ids
-- `depends_on` must be array of known step ids
-- no duplicate dependency items
-- retry/timeout controls must be positive integers when set
-
-## Example: Simple DAG
+## Example: Minimal DAG
 
 ```json
 {
@@ -59,24 +57,4 @@ Also enforced:
   ],
   "input": { "topic": "DAG engines" }
 }
-```
-
-## Example: Wait + Signal
-
-```json
-{
-  "steps": [
-    {
-      "id": "wait_release",
-      "type": "wait",
-      "signal": "deploy_ready"
-    }
-  ]
-}
-```
-
-Resume:
-
-```bash
-POST /runs/{id}/steps/{step_id}/signal
 ```
