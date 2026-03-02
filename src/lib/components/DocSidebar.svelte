@@ -15,21 +15,28 @@
     $props();
 
   let currentPath = $derived($page.url.pathname);
+  let menuOpen = $state(false);
 </script>
 
 <aside class="sidebar">
   <div class="sidebar-header">
     <div class="label">{title}</div>
+    <button class="mobile-toggle" onclick={() => (menuOpen = !menuOpen)}>
+      {menuOpen ? "Close Menu" : "Menu"}
+    </button>
   </div>
 
-  <nav class="sidebar-nav">
+  <nav class="sidebar-nav" class:open={menuOpen}>
     {#each sections as section}
       <div class="nav-section">
         <h3>{section.title}</h3>
         <ul>
           {#each section.items as item}
             <li>
-              <a href={item.href} class={currentPath === item.href ? "active" : ""}>
+              <a
+                href={item.href}
+                class={currentPath === item.href ? "active" : ""}
+              >
                 {item.label}
               </a>
             </li>
@@ -46,7 +53,11 @@
     min-width: 280px;
     border-right: 1px solid var(--border);
     padding: 24px 18px;
-    background: linear-gradient(to right, color-mix(in srgb, var(--bg) 85%, transparent), transparent);
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--bg) 85%, transparent),
+      transparent
+    );
     position: sticky;
     top: 70px;
     align-self: start;
@@ -110,6 +121,10 @@
     background: color-mix(in srgb, var(--accent) 9%, transparent);
   }
 
+  .mobile-toggle {
+    display: none;
+  }
+
   @media (max-width: 980px) {
     .sidebar {
       width: auto;
@@ -118,37 +133,40 @@
       max-height: none;
       border-right: 0;
       border-bottom: 1px solid var(--border);
-      padding: 12px;
+      padding: 14px 18px;
       background: var(--bg-surface);
     }
 
     .sidebar-header {
-      margin-bottom: 10px;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mobile-toggle {
+      display: block;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
     }
 
     .sidebar-nav {
+      display: none;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px dashed var(--border);
+      gap: 16px;
+    }
+
+    .sidebar-nav.open {
       display: grid;
-      gap: 10px;
-    }
-
-    .nav-section ul {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-    }
-
-    .nav-section a {
-      white-space: nowrap;
-      border: 1px solid var(--border);
-      border-left: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 5px 10px;
-      font-size: 0.8rem;
-    }
-
-    .nav-section a.active {
-      border-color: var(--accent);
     }
   }
 </style>

@@ -53,7 +53,12 @@
     padding: 34px 42px 56px;
   }
 
-  :global(.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4) {
+  :global(
+      .markdown-body h1,
+      .markdown-body h2,
+      .markdown-body h3,
+      .markdown-body h4
+    ) {
     color: var(--fg);
     line-height: 1.24;
   }
@@ -120,6 +125,8 @@
     border-radius: 10px;
     overflow-x: auto;
     margin: 16px 0 20px;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   :global(.markdown-body blockquote) {
@@ -134,6 +141,8 @@
     border-collapse: collapse;
     margin: 14px 0 20px;
     border: 1px solid var(--border);
+    display: block;
+    overflow-x: auto;
   }
 
   :global(.markdown-body th, .markdown-body td) {
@@ -163,12 +172,19 @@
 
   @media (max-width: 980px) {
     .docs-layout {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
     }
 
     .docs-content {
-      max-width: none;
-      padding: 16px 16px 42px;
+      max-width: 100%;
+      padding: 24px 18px 56px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    :global(.markdown-body h1) {
+      font-size: 1.85rem;
     }
   }
 </style>
