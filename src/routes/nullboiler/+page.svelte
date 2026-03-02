@@ -18,7 +18,7 @@
     </div>
 
     <div class="metrics">
-      <article><h3>16</h3><p>API route patterns in `src/api.zig`</p></article>
+      <article><h3>18</h3><p>API route patterns in `src/api.zig`</p></article>
       <article><h3>14</h3><p>step types supported by engine</p></article>
       <article><h3>3</h3><p>worker protocols (webhook/api_chat/openai_chat)</p></article>
       <article><h3>9</h3><p>SQLite tables (core + advanced migrations)</p></article>

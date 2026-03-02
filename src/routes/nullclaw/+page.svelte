@@ -21,7 +21,7 @@
       <article><h3>19</h3><p>top-level CLI commands</p></article>
       <article><h3>20</h3><p>channels in `channel_catalog`</p></article>
       <article><h3>89</h3><p>compatible provider aliases</p></article>
-      <article><h3>34</h3><p>tool specs in `src/tools/*`</p></article>
+      <article><h3>33</h3><p>unique `tool_name` values in `src/tools/*.zig`</p></article>
       <article><h3>9</h3><p>known memory backends</p></article>
     </div>
   </section>
@@ -104,7 +104,7 @@ zig build -Doptimize=ReleaseSmall
       <article>
         <h3>Core Tools</h3>
         <p>
-          shell, file_read, file_write, file_edit, git, image_info, memory_store, memory_recall,
+          shell, file_read, file_write, file_edit, git_operations, image_info, memory_store, memory_recall,
           memory_list, memory_forget, delegate, schedule, spawn.
         </p>
       </article>
@@ -113,7 +113,15 @@ zig build -Doptimize=ReleaseSmall
         <h3>Optional Tools</h3>
         <p>
           http_request, browser, screenshot, composio, browser_open, hardware_board_info,
-          hardware_memory, i2c.
+          hardware_memory, i2c, web_search, web_fetch.
+        </p>
+      </article>
+
+      <article>
+        <h3>Additional Tool Specs</h3>
+        <p>
+          cron_add, cron_list, cron_remove, cron_run, cron_runs, cron_update, message,
+          pushover, file_append, spi.
         </p>
       </article>
     </div>

@@ -7,7 +7,7 @@ NullClaw is a Zig runtime for autonomous AI agents with configurable providers, 
 - **CLI commands:** 19 top-level commands in `src/main.zig`
 - **Channels:** 20 entries in `src/channel_catalog.zig`
 - **Provider aliases:** 89 OpenAI-compatible aliases in `src/providers/factory.zig`
-- **Tool specs:** 34 unique `tool_name` values in `src/tools/*.zig`
+- **Tool specs:** 33 unique `tool_name` values in `src/tools/*.zig`
 - **Memory backends:** 9 known backends in `src/memory/engines/registry.zig`
 
 ## Start Here
