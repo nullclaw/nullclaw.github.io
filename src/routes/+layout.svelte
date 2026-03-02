@@ -77,6 +77,8 @@
       <a href="/">Ecosystem</a>
       <a href="/nullclaw/docs/getting-started">NullClaw Docs</a>
       <a href="/chat-ui/docs/quick-start">Chat UI Docs</a>
+      <a href="/nullboiler/docs/quick-start">NullBoiler Docs</a>
+      <a href="/nulltickets/docs/quick-start">NullTickets Docs</a>
       <a href="/orchestrator">Roadmap</a>
     </div>
 
@@ -110,6 +112,12 @@
         >
         <a href="https://github.com/nullclaw/nullclaw-chat-ui" target="_blank"
           >nullclaw-chat-ui</a
+        >
+        <a href="https://github.com/nullclaw/nullboiler" target="_blank"
+          >nullboiler</a
+        >
+        <a href="https://github.com/nullclaw/nulltickets" target="_blank"
+          >nulltickets</a
         >
       </div>
       <div class="terminal-line">root@nullclaw:~# docs --ecosystem _</div>

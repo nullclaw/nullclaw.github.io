@@ -1,28 +1,25 @@
 <svelte:head>
-  <title>NullClaw Task Tracker (Roadmap)</title>
+  <title>NullTracker Alias</title>
 </svelte:head>
 
 <div class="roadmap">
   <div class="card">
-    <div class="breadcrumb"><a href="/">Ecosystem</a> / Task Tracker</div>
-    <span class="status">IN DEVELOPMENT</span>
-    <h1>AI Task Tracker</h1>
+    <div class="breadcrumb"><a href="/">Ecosystem</a> / NullTracker</div>
+    <span class="status">ACTIVE (ALIAS)</span>
+    <h1>NullTracker = NullTickets</h1>
     <p>
-      Planned workspace for task queues, autonomous execution tracking, and human review.
+      In the current ecosystem docs, the tracker control plane is published as
+      <strong>NullTickets</strong>. This page is kept as a stable alias for navigation.
     </p>
 
-    <h2>Planned Scope</h2>
+    <h2>Go To Active Docs</h2>
     <ul>
-      <li>Task ingestion and prioritization for agent workflows</li>
-      <li>Execution history with status transitions and outcomes</li>
-      <li>Review and approval checkpoints for supervised autonomy</li>
+      <li><a href="/nulltickets/docs/quick-start">NullTickets Quick Start</a></li>
+      <li><a href="/nulltickets/docs/api">NullTickets API</a></li>
+      <li><a href="https://github.com/nullclaw/nulltickets" target="_blank">GitHub: nulltickets</a></li>
     </ul>
 
-    <p class="note">
-      This module is currently roadmap-only and not available for production use yet.
-    </p>
-
-    <a href="/" class="back">Back To Ecosystem</a>
+    <a href="/nulltickets" class="back">Open NullTickets Section</a>
   </div>
 </div>
 
@@ -57,8 +54,8 @@
   .status {
     display: inline-block;
     padding: 4px 8px;
-    border: 1px solid var(--warning);
-    color: var(--warning);
+    border: 1px solid var(--accent);
+    color: var(--accent);
     border-radius: 999px;
     font-size: 0.74rem;
     letter-spacing: 0.08em;
@@ -87,12 +84,9 @@
     gap: 8px;
   }
 
-  .note {
-    margin-top: 14px;
-    padding: 12px;
-    border: 1px dashed var(--border);
-    border-radius: 10px;
-    background: color-mix(in srgb, var(--bg) 72%, transparent);
+  ul a {
+    color: var(--accent);
+    text-decoration: none;
   }
 
   .back {
