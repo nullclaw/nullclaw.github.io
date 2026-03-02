@@ -51,9 +51,9 @@
       </a>
     </div>
     <div class="nav-links">
-      <a href="/">Terminal</a>
-      <a href="/ui">UI Client</a>
-      <a href="/docs/getting-started">Docs</a>
+      <a href="/">Home</a>
+      <a href="/nullclaw/docs/getting-started">Nullclaw</a>
+      <a href="/chat-ui/docs/overview">Chat UI</a>
     </div>
     <div class="nav-controls">
       <button
@@ -67,7 +67,7 @@
         THEME
       </button>
       <a
-        href="https://github.com/nullclaw/nullclaw"
+        href="https://github.com/nullclaw"
         target="_blank"
         class="github-btn"
       >

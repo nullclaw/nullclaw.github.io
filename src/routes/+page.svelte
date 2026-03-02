@@ -42,7 +42,7 @@
 
     <div class="project-grid">
         <!-- NullClaw Core Desktop/CLI Agent -->
-        <a href="/docs/getting-started" class="project-card core">
+        <a href="/nullclaw" class="project-card core">
             <div class="card-header">
                 <div class="icon">[ CORE ]</div>
                 <div class="status online">ONLINE</div>
@@ -59,7 +59,7 @@
         </a>
 
         <!-- NullClaw UI -->
-        <a href="/ui" class="project-card client">
+        <a href="/chat-ui" class="project-card client">
             <div class="card-header">
                 <div class="icon">[ UI ]</div>
                 <div class="status online">ONLINE</div>

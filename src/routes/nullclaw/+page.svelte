@@ -3,7 +3,7 @@
 
     let typedText = $state("");
     const fullText =
-        "The frontend client for System NullClaw. Beautiful, responsive, and fully customizable.";
+        "Fastest, smallest, and fully autonomous AI assistant infrastructure written in Zig.";
 
     onMount(() => {
         let i = 0;
@@ -17,25 +17,35 @@
 </script>
 
 <svelte:head>
-    <title>NullClaw Chat UI | Frontend Client</title>
+    <title>NullClaw | AI Assistant Infrastructure</title>
 </svelte:head>
 
 <div class="header">
     <div class="container">
         <div class="breadcrumb">
-            <a href="/">NULLCLAW ECOSYSTEM</a> / UI CLIENT
+            <a href="/">NULLCLAW ECOSYSTEM</a> / NULLCLAW
         </div>
-        <h1>NULLCLAW UI</h1>
+        <h1>NULLCLAW</h1>
         <p class="subtitle">
             <span class="prompt-arrow">&gt; </span>
             {typedText}<span class="cursor">_</span>
         </p>
 
+        <div class="stat-badges">
+            <span class="badge">678 KB binary</span>
+            <span class="badge">&lt;2ms startup</span>
+            <span class="badge">~1MB RAM</span>
+            <span class="badge">3,230+ tests</span>
+        </div>
+
         <div class="actions">
+            <a href="/nullclaw/docs/getting-started" class="btn primary"
+                >Get Started</a
+            >
             <a
-                href="https://github.com/nullclaw/nullclaw-chat-ui"
+                href="https://github.com/nullclaw/nullclaw"
                 target="_blank"
-                class="btn primary">View on GitHub</a
+                class="btn secondary">View on GitHub</a
             >
         </div>
     </div>
@@ -44,36 +54,45 @@
 <div class="container">
     <section class="overview">
         <div class="feature-card">
-            <div class="icon">[ SVELTE ]</div>
-            <h3>Native SvelteKit</h3>
+            <div class="icon">[ PROVIDERS ]</div>
+            <h3>22+ AI Providers</h3>
             <p>
-                Built with the latest Svelte 5 and SvelteKit for extreme
-                performance and tiny bundle sizes. No React bloat.
+                Anthropic, OpenAI, Gemini, Ollama, OpenRouter, and more.
+                Hot-swappable vtable interfaces with zero lock-in.
             </p>
         </div>
 
         <div class="feature-card">
-            <div class="icon">[ THEMES ]</div>
-            <h3>Multi-Thematic</h3>
+            <div class="icon">[ CHANNELS ]</div>
+            <h3>19 Messaging Channels</h3>
             <p>
-                Five pre-built themes: Matrix, Dracula, Synthwave, Amber, and
-                Vintage terminal, with CRT effects built-in.
+                Telegram, Discord, Slack, Signal, Nostr, Matrix, IRC, WhatsApp,
+                Web, and more. All channels run simultaneously.
             </p>
         </div>
 
         <div class="feature-card">
-            <div class="icon">[ RENDER ]</div>
-            <h3>Rich Markdown</h3>
+            <div class="icon">[ MEMORY ]</div>
+            <h3>Hybrid Memory System</h3>
             <p>
-                Full isomorphism DOM purification, syntax highlighting with
-                Highlight.js, and animated markdown rendering.
+                SQLite with FTS5 + vector cosine similarity. Multiple backends.
+                Adaptive retrieval with RRF and MMR.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="icon">[ SECURITY ]</div>
+            <h3>Multi-Layer Security</h3>
+            <p>
+                6-digit pairing, ChaCha20-Poly1305 encryption,
+                Landlock/Firejail/Bubblewrap sandbox, audit logging.
             </p>
         </div>
     </section>
 
     <section class="installation">
         <h2>
-            <span class="bracket">[</span> INITIALIZATION
+            <span class="bracket">[</span> QUICK START
             <span class="bracket">]</span>
         </h2>
 
@@ -85,15 +104,15 @@
                 <span class="title">terminal - ~</span>
             </div>
             <pre><code
-                    ><span class="comment"># Clone the repository</span>
-git clone https://github.com/nullclaw/nullclaw-chat-ui.git
+                    ><span class="comment"># Clone and build</span>
+git clone https://github.com/nullclaw/nullclaw.git
+cd nullclaw && zig build -Doptimize=ReleaseSmall
 
-<span class="comment"># Install dependencies</span>
-cd nullclaw-chat-ui
-npm install
+<span class="comment"># Quick setup</span>
+./zig-out/bin/nullclaw onboard --interactive
 
-<span class="comment"># Run development server</span>
-npm run dev -- --open</code
+<span class="comment"># Start the gateway</span>
+./zig-out/bin/nullclaw gateway</code
                 ></pre>
         </div>
     </section>
@@ -148,8 +167,8 @@ npm run dev -- --open</code
     .subtitle {
         font-size: 1.2rem;
         color: var(--fg-dim);
-        margin-bottom: 40px;
-        height: 1.5em; /* fixed height */
+        margin-bottom: 30px;
+        height: 1.5em;
     }
 
     .prompt-arrow {
@@ -164,6 +183,26 @@ npm run dev -- --open</code
         background: var(--accent);
         animation: blinkCursor 1s infinite;
         vertical-align: middle;
+    }
+
+    .stat-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .badge {
+        padding: 6px 15px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        font-weight: bold;
+        background: var(--bg-surface);
+        color: var(--accent);
+        border-color: var(--accent-dim);
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.15);
     }
 
     .actions {
@@ -200,6 +239,19 @@ npm run dev -- --open</code
         background: var(--bg-hover);
         box-shadow: 0 0 15px var(--border-glow);
         text-shadow: var(--text-glow);
+    }
+
+    .btn.secondary {
+        background: transparent;
+        color: var(--fg-dim);
+        border-color: var(--border);
+    }
+
+    .btn.secondary:hover {
+        color: var(--fg);
+        border-color: var(--accent-dim);
+        background: var(--bg-hover);
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
     }
 
     .overview {
