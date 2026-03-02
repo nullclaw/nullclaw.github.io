@@ -1,182 +1,89 @@
 # Architecture
 
-NullClaw is built around a vtable-driven architecture where every major subsystem is defined by an interface. Implementations are registered in factories and selected at runtime via configuration. This means you can swap any provider, channel, tool, memory backend, or sandbox without changing code -- just update the config.
+NullClaw is structured as modular runtime components connected through typed interfaces and registries.
 
-## Overview
+## Core Runtime Entry Points
 
-The codebase is roughly 151 source files and 96,000 lines of Zig. It compiles to a single static binary with zero external dependencies (besides libc and an optional vendored SQLite). The design is zero-copy where possible, with explicit ownership semantics enforced by the Zig compiler.
+- `src/main.zig`: CLI command routing and command handlers
+- `src/daemon.zig`: long-running gateway orchestration loop
+- `src/gateway.zig`: HTTP/WebSocket ingress and API endpoints
+- `src/agent/root.zig`: agent loop and tool-calling logic
 
-Key design principles:
+## Primary Module Domains
 
-- **Vtable interfaces** for all extension points
-- **Factory registration** to discover and instantiate implementations
-- **Zero-copy** message passing with explicit ownership
-- **No allocator overhead** -- arenas and fixed-buffer allocators where appropriate
-- **No runtime reflection** -- all dispatch is compile-time or vtable-based
+- `src/providers/*`: model providers and provider factory/runtime bundle
+- `src/channels/*`: channel integrations and dispatch logic
+- `src/tools/*`: tool interfaces and implementations
+- `src/memory/*`: memory engines, retrieval, lifecycle, vector layers
+- `src/security/*`: policy, pairing, sandbox backends, audit
+- `src/channel_catalog.zig`: source-of-truth channel registry
+- `src/capabilities.zig`: runtime capability manifest generation
 
-## Module Map
+## Request Flow
 
-```
-src/
-  main.zig              CLI entry point, argument parsing, command dispatch
-  root.zig              Public module hierarchy
-  config.zig            JSON config loader (30+ sub-config structs)
-  agent.zig             Agent loop, auto-compaction, tool dispatch
-  gateway.zig           HTTP gateway (rate limiting, idempotency, pairing)
-  daemon.zig            Daemon supervisor with exponential backoff
-  bus.zig               Internal message bus
-  channel_manager.zig   Channel lifecycle (register, start, stop, health)
-  cron.zig              Cron scheduler with JSON persistence
-  health.zig            Component health registry
-  tunnel.zig            Tunnel vtable (Cloudflare, ngrok, Tailscale, custom)
-  peripherals.zig       Hardware peripheral vtable (serial, Arduino, RPi, Nucleo)
-  runtime.zig           Runtime vtable (native, Docker, WASM)
-  skillforge.zig        Skill discovery, evaluation, integration
+1. Inbound message enters via channel or gateway endpoint.
+2. Channel/gateway resolves routing/session context.
+3. Agent loop builds prompt + state and selects provider path.
+4. Provider response may trigger tool calls.
+5. Tool dispatcher executes allowed tools under policy constraints.
+6. Tool results feed back into agent loop until final response.
+7. Outbound response is published back through channel/gateway.
 
-  channels/             19 channel implementations
-  providers/            19 provider implementations
-  tools/                36+ tool implementations
-  memory/               Storage, retrieval, vector, lifecycle
-  security/             Pairing, secrets, sandbox, audit, policy
-```
+## Provider Layer
 
-## Core Modules
+Provider selection is handled in `src/providers/factory.zig` and `src/providers/runtime_bundle.zig`:
 
-### agent.zig
+- Core implementations: `anthropic`, `openai`, `openrouter`, `ollama`, `gemini`, `claude-cli`, `codex-cli`, `openai-codex`
+- Compatible alias table: large set of endpoint aliases mapped to OpenAI-compatible transport
+- Reliability wrapper: fallback/retry orchestration from config
 
-The agent loop. Receives a message (from CLI or any channel), constructs a conversation context, sends it to the configured provider, processes tool calls in a loop until the model produces a final response, and returns the result. Handles auto-compaction of long conversations to stay within context limits.
+## Channel Layer
 
-### gateway.zig
+Channel metadata is centralized in `src/channel_catalog.zig`:
 
-The HTTP server that powers the runtime. Handles webhook ingress (Telegram, WhatsApp, LINE, Lark), the pairing handshake, rate limiting, and idempotency checks. Routes incoming messages to the appropriate channel handler based on the request path and payload.
+- 20 channel entries (CLI + messaging/web integrations)
+- Build-enabled flags controlled by `build_options`
+- Runtime/configured status calculation and lifecycle mode hints
 
-### channel_manager.zig
+## Tool Layer
 
-Manages the lifecycle of all channels. Registers channel implementations from the factory, starts and stops them based on config, monitors health, and provides the `channel status` interface. Handles multi-account configurations where a single channel type (e.g., IRC) can have multiple named accounts.
+`src/tools/root.zig` provides:
 
-### bus.zig
+- Common tool interface (`Tool` + `ToolVTable`)
+- Core tool assembly (`allTools`, `defaultTools`, `subagentTools`)
+- Memory tool binding to runtime memory engines
 
-The internal message bus that decouples channels from the agent. Channels push inbound messages onto the bus, the agent loop consumes them, and responses are routed back through the bus to the originating channel. Session keys ensure responses reach the correct conversation.
+Tool availability depends on both build and config (see `src/capabilities.zig`).
 
-### daemon.zig
+## Memory Layer
 
-The supervisor process for the gateway loop. Handles graceful shutdown, signal handling, and exponential backoff on crashes. Routes inbound messages from long-polling channels (Discord, QQ, OneBot, Mattermost, MaixCam) that maintain persistent connections rather than receiving webhooks.
+`src/memory/engines/registry.zig` defines backend descriptors and capabilities.
 
-## Vtable Contract
+Known backend names:
 
-Every extension point follows the same pattern. An interface is defined as a struct of function pointers (a vtable), and implementations provide concrete functions that match those signatures.
+- `none`, `markdown`, `memory`, `api`, `sqlite`, `lucid`, `redis`, `lancedb`, `postgres`
 
-Pseudocode example:
+Runtime search/retrieval pipeline and lifecycle management live under:
 
-```zig
-// The interface
-const Provider = struct {
-    ptr: *anyopaque,
-    vtable: *const VTable,
+- `src/memory/retrieval/*`
+- `src/memory/lifecycle/*`
+- `src/memory/vector/*`
 
-    const VTable = struct {
-        chat: *const fn (ptr: *anyopaque, messages: []Message) Error!Response,
-        stream: *const fn (ptr: *anyopaque, messages: []Message, callback: StreamCallback) Error!void,
-    };
+## Security Layer
 
-    // Dispatch through the vtable
-    pub fn chat(self: Provider, messages: []Message) Error!Response {
-        return self.vtable.chat(self.ptr, messages);
-    }
-};
+`src/security/*` contains:
 
-// An implementation
-const AnthropicProvider = struct {
-    api_key: []const u8,
-    base_url: []const u8,
+- Pairing and token checks
+- Command/path policy evaluation
+- Sandbox backends (`landlock`, `firejail`, `bubblewrap`, `docker`, auto-detect)
+- Audit/tracking modules
 
-    pub fn init(config: ProviderConfig) AnthropicProvider { ... }
+## Capability Introspection
 
-    pub fn chat(ptr: *anyopaque, messages: []Message) Error!Response {
-        const self: *AnthropicProvider = @ptrCast(@alignCast(ptr));
-        // Make API call to Anthropic
-    }
-};
-```
+`nullclaw capabilities` and `nullclaw capabilities --json` expose:
 
-Implementations are registered in factory files. At startup, NullClaw reads the config, looks up the requested implementation in the factory, and instantiates it. Swapping from Anthropic to OpenAI is a config change -- no recompilation needed.
+- channel availability and configuration state
+- memory engine availability
+- estimated/loaded tool sets
 
-## Extension Points
-
-| Interface | Directory | How to Extend |
-|-----------|-----------|---------------|
-| `Provider` | `src/providers/` | Implement the Provider vtable, register in `factory.zig` |
-| `Channel` | `src/channels/` | Implement the Channel vtable, register in channel factory |
-| `Tool` | `src/tools/` | Implement the Tool vtable with `execute()`, register in tool factory |
-| `Memory` | `src/memory/` | Implement the Memory vtable (store, recall, search), register in engine registry |
-| `Observer` | `src/observer.zig` | Implement the Observer vtable for custom telemetry |
-| `RuntimeAdapter` | `src/runtime.zig` | Implement for new execution environments (native, Docker, WASM) |
-| `Peripheral` | `src/peripherals.zig` | Implement for hardware interfaces (serial, I2C, SPI, GPIO) |
-| `Tunnel` | `src/tunnel.zig` | Implement for new tunnel providers (Cloudflare, ngrok, etc.) |
-
-## Data Flow
-
-A message flows through the system in this order:
-
-```
-Channel (Telegram, Discord, CLI, ...)
-    |
-    v
-Channel Manager (parse, filter, extract session key)
-    |
-    v
-Message Bus (route to agent by session)
-    |
-    v
-Agent Loop
-    |--- construct conversation context
-    |--- send to Provider (Anthropic, OpenAI, Ollama, ...)
-    |--- receive response
-    |
-    |--- if tool calls:
-    |       |--- dispatch to Tool (shell, file_read, web_search, ...)
-    |       |--- collect results
-    |       |--- send back to Provider with tool results
-    |       |--- repeat until final response
-    |
-    v
-Response routed back through Bus
-    |
-    v
-Channel Manager (format for target channel)
-    |
-    v
-Channel (send reply to user)
-```
-
-### Session Keys
-
-Each conversation is identified by a session key derived from the channel and user. For Telegram, this is the chat ID. For Discord, it is the channel ID plus user ID. Session keys ensure that multi-turn conversations maintain context and responses reach the correct recipient.
-
-### Tool Dispatch
-
-When the provider responds with tool calls, the agent loop looks up each tool by name in the tool registry, executes it within the configured security scope (sandbox, workspace restrictions, allowlists), collects the results, and sends them back to the provider. This loop continues until the provider produces a final text response.
-
-### Heartbeat
-
-The heartbeat engine runs on a configurable interval (default: 30 minutes) and executes tasks defined in `HEARTBEAT.md`. This enables periodic autonomous behavior -- checking news, running maintenance, sending updates -- without external triggers.
-
-## Build Architecture
-
-NullClaw uses Zig's build system with conditional compilation:
-
-- `-Dchannels=telegram,discord` compiles only the selected channels, reducing binary size
-- `-Dsqlite=true` includes the vendored SQLite for the memory backend
-- `-Dtarget=aarch64-linux-gnu` cross-compiles for any supported target
-- `-Doptimize=ReleaseSmall` produces the smallest binary (678 KB)
-
-The binary is fully static and self-contained. No shared libraries, no runtime dependencies beyond libc. Drop it on any machine with a compatible architecture and it runs.
-
-## Further Reading
-
-- [Configuration](/nullclaw/docs/configuration) -- how to configure all subsystems
-- [Providers](/nullclaw/docs/providers) -- AI model provider details
-- [Channels](/nullclaw/docs/channels) -- channel implementations
-- [Tools](/nullclaw/docs/tools) -- built-in tool catalog
-- [Memory](/nullclaw/docs/memory) -- memory system internals
-- [Security](/nullclaw/docs/security) -- security layers
+Use this output when validating deployment reality vs configuration intent.

@@ -6,32 +6,36 @@
 
   const sections = [
     {
-      title: "Getting Started",
+      title: "Start Here",
       items: [
         { label: "Quick Start", href: "/nullclaw/docs/getting-started" },
+        { label: "Overview", href: "/nullclaw/docs/overview" },
         { label: "Architecture", href: "/nullclaw/docs/architecture" },
-        { label: "Configuration", href: "/nullclaw/docs/configuration" },
       ],
     },
     {
-      title: "Components",
+      title: "Configuration",
       items: [
+        { label: "Configuration", href: "/nullclaw/docs/configuration" },
         { label: "Providers", href: "/nullclaw/docs/providers" },
         { label: "Channels", href: "/nullclaw/docs/channels" },
+      ],
+    },
+    {
+      title: "Runtime",
+      items: [
         { label: "Tools", href: "/nullclaw/docs/tools" },
         { label: "Memory", href: "/nullclaw/docs/memory" },
+        { label: "Security", href: "/nullclaw/docs/security" },
       ],
     },
     {
       title: "Reference",
-      items: [
-        { label: "Security", href: "/nullclaw/docs/security" },
-        { label: "CLI", href: "/nullclaw/docs/cli" },
-      ],
+      items: [{ label: "CLI", href: "/nullclaw/docs/cli" }],
     },
   ];
 </script>
 
-<DocsLayout sidebarTitle="NULLCLAW DOCS" {sections} tocContent={$page.data?.content ?? ""}>
+<DocsLayout sidebarTitle="NullClaw Docs" {sections} tocContent={$page.data?.content ?? ""}>
   {@render children()}
 </DocsLayout>

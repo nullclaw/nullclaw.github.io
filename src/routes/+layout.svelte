@@ -4,41 +4,59 @@
 
   let { children } = $props();
 
+  const THEME_KEY = "nullclaw_docs_theme";
+  const EFFECTS_KEY = "nullclaw_docs_effects";
+  const themes = [
+    "theme-matrix",
+    "theme-synthwave",
+    "theme-amber",
+    "theme-dracula",
+    "theme-light",
+  ] as const;
+
   let isScrolled = $state(false);
   let effectsDisabled = $state(true);
-  let theme = $state("theme-matrix");
+  let theme = $state<(typeof themes)[number]>("theme-matrix");
 
   onMount(() => {
+    const storedTheme = localStorage.getItem(THEME_KEY);
+    if (storedTheme && themes.includes(storedTheme as (typeof themes)[number])) {
+      theme = storedTheme as (typeof themes)[number];
+    }
+
+    const storedEffects = localStorage.getItem(EFFECTS_KEY);
+    if (storedEffects === "on") {
+      effectsDisabled = false;
+    }
+
+    document.body.classList.add(theme);
+    document.body.classList.toggle("effects-disabled", effectsDisabled);
+
     const handleScroll = () => {
-      isScrolled = window.scrollY > 20;
+      isScrolled = window.scrollY > 18;
     };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      document.body.classList.remove(theme);
+      window.removeEventListener("scroll", handleScroll);
+    };
   });
 
   function toggleEffects() {
     effectsDisabled = !effectsDisabled;
-    if (effectsDisabled) {
-      document.body.classList.add("effects-disabled");
-    } else {
-      document.body.classList.remove("effects-disabled");
-    }
+    document.body.classList.toggle("effects-disabled", effectsDisabled);
+    localStorage.setItem(EFFECTS_KEY, effectsDisabled ? "off" : "on");
   }
 
   function cycleTheme() {
-    const themes = [
-      "theme-matrix",
-      "theme-synthwave",
-      "theme-amber",
-      "theme-dracula",
-      "theme-light",
-    ];
     const currentIdx = themes.indexOf(theme);
     const nextIdx = (currentIdx + 1) % themes.length;
 
     document.body.classList.remove(theme);
     theme = themes[nextIdx];
     document.body.classList.add(theme);
+    localStorage.setItem(THEME_KEY, theme);
   }
 </script>
 
@@ -46,33 +64,25 @@
   <nav class="navbar {isScrolled ? 'scrolled' : ''}">
     <div class="nav-brand">
       <a href="/">
-        <span class="bracket">[</span> <span class="brand-text">nullclaw</span>
+        <span class="bracket">[</span>
+        <span class="brand-text">nullclaw ecosystem</span>
         <span class="bracket">]</span>
       </a>
     </div>
+
     <div class="nav-links">
-      <a href="/">Home</a>
-      <a href="/nullclaw/docs/getting-started">Nullclaw</a>
-      <a href="/chat-ui/docs/overview">Chat UI</a>
+      <a href="/">Ecosystem</a>
+      <a href="/nullclaw/docs/getting-started">NullClaw Docs</a>
+      <a href="/chat-ui/docs/quick-start">Chat UI Docs</a>
+      <a href="/orchestrator">Roadmap</a>
     </div>
+
     <div class="nav-controls">
-      <button
-        class="icon-btn"
-        onclick={toggleEffects}
-        title="Toggle CRT Effects"
-      >
-        {effectsDisabled ? "CRT:OFF" : "CRT:ON"}
+      <button class="icon-btn" onclick={toggleEffects} title="Toggle CRT Effects">
+        {effectsDisabled ? "FX:OFF" : "FX:ON"}
       </button>
-      <button class="icon-btn" onclick={cycleTheme} title="Cycle Theme">
-        THEME
-      </button>
-      <a
-        href="https://github.com/nullclaw"
-        target="_blank"
-        class="github-btn"
-      >
-        GITHUB
-      </a>
+      <button class="icon-btn" onclick={cycleTheme} title="Cycle Theme">THEME</button>
+      <a href="https://github.com/nullclaw" target="_blank" class="github-btn">GITHUB</a>
     </div>
   </nav>
 
@@ -82,21 +92,12 @@
 
   <footer>
     <div class="footer-content">
-      <div class="tech-links">
-        <a href="https://ziglang.org" target="_blank" class="tech-link">
-          <span class="icon">[ ZIG ]</span>
-          <span
-            >Zero hidden control flow, no hidden memory allocation, no
-            preprocessor.</span
-          >
-        </a>
-        <a href="https://svelte.dev" target="_blank" class="tech-link">
-          <span class="icon">[ SVELTE ]</span>
-          <span>Cybernetically enhanced web apps. Compile-time framework.</span>
-        </a>
+      <p>NullClaw ecosystem documentation hub</p>
+      <div class="repo-links">
+        <a href="https://github.com/nullclaw/nullclaw" target="_blank">nullclaw</a>
+        <a href="https://github.com/nullclaw/nullclaw-chat-ui" target="_blank">nullclaw-chat-ui</a>
       </div>
-      <p>System NullClaw v1.0.0 - Fully Autonomous AI Infrastructure</p>
-      <div class="terminal-line">root@nullclaw:~# _</div>
+      <div class="terminal-line">root@nullclaw:~# docs --ecosystem _</div>
     </div>
   </footer>
 </div>
@@ -108,7 +109,6 @@
     min-height: 100vh;
   }
 
-  /* Navbar */
   .navbar {
     position: fixed;
     top: 0;
@@ -118,9 +118,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 40px;
+    gap: 20px;
+    padding: 0 28px;
     z-index: 100;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     border-bottom: 1px solid transparent;
   }
 
@@ -129,18 +130,17 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   }
 
   .nav-brand a {
     text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: 700;
     color: var(--fg);
     display: flex;
     align-items: center;
     gap: 8px;
-    text-shadow: var(--text-glow);
+    letter-spacing: 0.06em;
   }
 
   .nav-brand .bracket {
@@ -149,50 +149,33 @@
 
   .nav-brand .brand-text {
     color: var(--accent);
-    letter-spacing: 2px;
   }
 
   .nav-links {
     display: flex;
-    gap: 30px;
+    gap: 22px;
   }
 
   .nav-links a {
     text-decoration: none;
     color: var(--fg-dim);
-    font-size: 1.1rem;
-    transition:
-      color 0.3s,
-      text-shadow 0.3s;
+    font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+    padding-bottom: 2px;
   }
 
   .nav-links a:hover {
     color: var(--accent);
+    border-bottom-color: var(--accent);
     text-shadow: var(--text-glow);
-  }
-
-  .nav-links a::after {
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--accent);
-    transition: width 0.3s ease;
-    box-shadow: 0 0 5px var(--accent);
-  }
-
-  .nav-links a:hover::after {
-    width: 100%;
   }
 
   .nav-controls {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     align-items: center;
   }
 
@@ -201,13 +184,14 @@
     background: transparent;
     border: 1px solid var(--border);
     color: var(--fg);
-    padding: 6px 12px;
-    font-size: 0.8rem;
+    padding: 6px 10px;
+    font-size: 0.72rem;
     border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     text-decoration: none;
     display: inline-block;
+    letter-spacing: 0.06em;
   }
 
   .icon-btn:hover,
@@ -216,7 +200,6 @@
     border-color: var(--accent);
     color: var(--accent);
     box-shadow: 0 0 10px var(--border-glow);
-    text-shadow: var(--text-glow);
   }
 
   .github-btn {
@@ -224,74 +207,78 @@
     color: var(--accent-dim);
   }
 
-  /* Content Area */
   .content {
     flex: 1;
-    margin-top: 70px; /* Offset for fixed navbar */
+    margin-top: 70px;
     display: flex;
     flex-direction: column;
   }
 
-  /* Footer */
   footer {
-    padding: 40px 40px;
+    padding: 28px;
     border-top: 1px solid var(--border);
     background: var(--bg-surface);
-    display: flex;
-    justify-content: center;
-    align-items: center;
     color: var(--fg-dim);
-    font-size: 0.9rem;
-    position: relative;
-    overflow: hidden;
   }
 
   .footer-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    gap: 12px;
+    justify-items: center;
     text-align: center;
-    max-width: 800px;
   }
 
-  .tech-links {
+  .repo-links {
     display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-bottom: 30px;
+    gap: 16px;
     flex-wrap: wrap;
   }
 
-  .tech-link {
-    text-decoration: none;
-    color: var(--fg-dim);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    padding: 15px;
-    border: 1px dashed var(--border);
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    flex: 1;
-    min-width: 250px;
-  }
-
-  .tech-link .icon {
-    font-weight: bold;
+  .repo-links a {
     color: var(--accent);
-    letter-spacing: 2px;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--accent-dim);
   }
 
-  .tech-link:hover {
-    border-style: solid;
-    border-color: var(--accent);
-    background: var(--bg-hover);
-    color: var(--fg);
-    box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+  .repo-links a:hover {
+    border-bottom-style: solid;
   }
 
   .terminal-line {
-    margin-top: 15px;
     color: var(--accent);
     font-family: var(--font-mono);
-    animation: blinkCursor 1s infinite alternate;
+  }
+
+  @media (max-width: 900px) {
+    .nav-links {
+      display: none;
+    }
+
+    .nav-brand .brand-text {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .navbar {
+      padding: 0 14px;
+      gap: 8px;
+    }
+
+    .nav-brand .brand-text {
+      font-size: 0.78rem;
+    }
+
+    .nav-controls {
+      gap: 6px;
+    }
+
+    .icon-btn,
+    .github-btn {
+      padding: 5px 7px;
+      font-size: 0.66rem;
+    }
   }
 </style>

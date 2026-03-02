@@ -1,450 +1,443 @@
-<script lang="ts">
-    import { onMount } from "svelte";
+<svelte:head>
+  <title>NullClaw Ecosystem Docs</title>
+</svelte:head>
 
-    let typedText = $state("");
-    const fullText =
-        "The ultimate ecosystem for fully autonomous, zero-overhead AI infrastructure.";
+<section class="hero">
+  <div class="hero-inner">
+    <p class="kicker">NULLCLAW ECOSYSTEM</p>
+    <h1>Documentation Hub For Autonomous AI Infrastructure</h1>
+    <p class="summary">
+      Core runtime in Zig, terminal-first web UI in Svelte, and upcoming orchestration
+      products. This portal is structured for fast onboarding and deep technical reference.
+    </p>
 
-    onMount(() => {
-        let i = 0;
-        const interval = setInterval(() => {
-            typedText = fullText.slice(0, i);
-            i++;
-            if (i > fullText.length) clearInterval(interval);
-        }, 50);
-        return () => clearInterval(interval);
-    });
-</script>
-
-<div class="hero">
-    <div class="hero-content">
-        <h1 class="glitch-text" data-text="NULLCLAW ECOSYSTEM">
-            NULLCLAW ECOSYSTEM
-        </h1>
-        <p class="subtitle">
-            <span class="prompt-arrow">&gt; </span>
-            {typedText}<span class="cursor">_</span>
-        </p>
+    <div class="hero-actions">
+      <a href="/nullclaw/docs/getting-started" class="btn primary">NullClaw Quick Start</a>
+      <a href="/chat-ui/docs/quick-start" class="btn secondary">Chat UI Quick Start</a>
     </div>
-</div>
+
+    <div class="hero-metrics">
+      <article>
+        <h3>19</h3>
+        <p>top-level CLI commands in core runtime</p>
+      </article>
+      <article>
+        <h3>20</h3>
+        <p>channel integrations in `channel_catalog`</p>
+      </article>
+      <article>
+        <h3>89</h3>
+        <p>compatible provider aliases in factory</p>
+      </article>
+      <article>
+        <h3>34</h3>
+        <p>tool specs declared in source code</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="flow">
+  <div class="section-title">System Flow</div>
+  <div class="flow-grid">
+    <article>
+      <h3>1. Runtime</h3>
+      <p>
+        <a href="/nullclaw">NullClaw</a> handles providers, channels, tools, memory,
+        policy and gateway endpoints.
+      </p>
+    </article>
+    <article>
+      <h3>2. Client</h3>
+      <p>
+        <a href="/chat-ui">NullClaw Chat UI</a> pairs via PIN, streams events, renders tools,
+        and handles approvals.
+      </p>
+    </article>
+    <article>
+      <h3>3. Expansion</h3>
+      <p>
+        Orchestrator and Task Tracker are listed as roadmap modules and will be attached into
+        the same ecosystem docs.
+      </p>
+    </article>
+  </div>
+</section>
 
 <section class="projects">
-    <div class="section-title">
-        <h2>
-            <span class="bracket">[</span> ACTIVE PROJECTS
-            <span class="bracket">]</span>
-        </h2>
-    </div>
+  <div class="section-title">Projects</div>
+  <div class="project-grid">
+    <article class="project active">
+      <div class="top">
+        <span class="tag">ACTIVE</span>
+        <span class="name">Core</span>
+      </div>
+      <h3>NullClaw</h3>
+      <p>
+        Fastest, smallest, and fully autonomous AI assistant infrastructure written in Zig.
+      </p>
+      <ul>
+        <li>CLI + gateway + channel runtime</li>
+        <li>Capabilities manifest and configurable toolset</li>
+        <li>Memory engines, sandboxing, pairing security</li>
+      </ul>
+      <div class="actions">
+        <a href="/nullclaw/docs/getting-started">Docs</a>
+        <a href="https://github.com/nullclaw/nullclaw" target="_blank">GitHub</a>
+      </div>
+    </article>
 
-    <div class="project-grid">
-        <!-- NullClaw Core Desktop/CLI Agent -->
-        <a href="/nullclaw" class="project-card core">
-            <div class="card-header">
-                <div class="icon">[ CORE ]</div>
-                <div class="status online">ONLINE</div>
-            </div>
-            <h3>NullClaw Agent</h3>
-            <p>
-                Fastest, smallest, and fully autonomous AI assistant
-                infrastructure written in Zig. Zero overhead, absolute
-                portability.
-            </p>
-            <div class="card-footer">
-                <span class="link-text">Initialize System &rarr;</span>
-            </div>
-        </a>
+    <article class="project active">
+      <div class="top">
+        <span class="tag">ACTIVE</span>
+        <span class="name">Client</span>
+      </div>
+      <h3>NullClaw Chat UI</h3>
+      <p>
+        Svelte-based terminal interface implementing WebChannel v1, E2E messaging, and approval UX.
+      </p>
+      <ul>
+        <li>Protocol-typed transport client</li>
+        <li>Session restore with token TTL</li>
+        <li>Streaming timeline for tool calls</li>
+      </ul>
+      <div class="actions">
+        <a href="/chat-ui/docs/quick-start">Docs</a>
+        <a href="https://github.com/nullclaw/nullclaw-chat-ui" target="_blank">GitHub</a>
+      </div>
+    </article>
 
-        <!-- NullClaw UI -->
-        <a href="/chat-ui" class="project-card client">
-            <div class="card-header">
-                <div class="icon">[ UI ]</div>
-                <div class="status online">ONLINE</div>
-            </div>
-            <h3>NullClaw Chat UI</h3>
-            <p>
-                Sleek, responsive Svelte frontend for NullClaw. Multiple premium
-                CRT themes, rich code rendering, and seamless agent interaction.
-            </p>
-            <div class="card-footer">
-                <span class="link-text">View Client &rarr;</span>
-            </div>
-        </a>
+    <article class="project roadmap">
+      <div class="top">
+        <span class="tag">IN DEVELOPMENT</span>
+        <span class="name">Roadmap</span>
+      </div>
+      <h3>Task Tracker</h3>
+      <p>
+        Planned task-level control surface for autonomous execution, tracking, and review loops.
+      </p>
+      <ul>
+        <li>Execution queue and state transitions</li>
+        <li>Agent-centered issue workflow</li>
+        <li>Tight integration with orchestrator</li>
+      </ul>
+      <div class="actions">
+        <a href="/tracker">Roadmap Page</a>
+      </div>
+    </article>
 
-        <!-- Upcoming: Orchestrator -->
-        <div class="project-card upcoming">
-            <div class="card-header">
-                <div class="icon">[ ORCH ]</div>
-                <div class="status offline">IN DEV</div>
-            </div>
-            <h3>Agent Orchestrator</h3>
-            <p>
-                Multi-agent coordination and distribution system for complex
-                distributed reasoning.
-            </p>
-            <div class="card-footer">
-                <span class="link-text">Classified // Access Denied</span>
-            </div>
-        </div>
+    <article class="project roadmap">
+      <div class="top">
+        <span class="tag">IN DEVELOPMENT</span>
+        <span class="name">Roadmap</span>
+      </div>
+      <h3>Orchestrator</h3>
+      <p>
+        Planned control plane for multi-agent scheduling, delegation, coordination, and observability.
+      </p>
+      <ul>
+        <li>Task routing across specialized agents</li>
+        <li>Execution policy and safety gates</li>
+        <li>Cross-project ecosystem glue</li>
+      </ul>
+      <div class="actions">
+        <a href="/orchestrator">Roadmap Page</a>
+      </div>
+    </article>
+  </div>
+</section>
 
-        <!-- Upcoming: Task Tracker -->
-        <div class="project-card upcoming">
-            <div class="card-header">
-                <div class="icon">[ TASK ]</div>
-                <div class="status offline">IN DEV</div>
-            </div>
-            <h3>AI Task Tracker</h3>
-            <p>
-                Autonomous issue resolution and board management interface
-                engineered for AI agents.
-            </p>
-            <div class="card-footer">
-                <span class="link-text">Classified // Access Denied</span>
-            </div>
-        </div>
-    </div>
+<section class="quickstart">
+  <div class="section-title">Ecosystem Quick Start</div>
+  <div class="panel">
+    <pre><code># 1) Core runtime
+git clone https://github.com/nullclaw/nullclaw.git
+cd nullclaw
+zig build -Doptimize=ReleaseSmall
+./zig-out/bin/nullclaw onboard --provider openrouter --api-key &lt;API_KEY&gt;
+# then add channels.web account in ~/.nullclaw/config.json
+./zig-out/bin/nullclaw gateway
+
+# 2) Web UI
+cd ../nullclaw-ui
+npm install
+npm run dev
+# open http://localhost:5173
+# endpoint: ws://127.0.0.1:32123/ws
+# pairing PIN: 123456</code></pre>
+  </div>
 </section>
 
 <style>
-    .hero {
-        min-height: 50vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 60px 40px 0;
-        position: relative;
-        overflow: hidden;
-    }
+  .hero,
+  .flow,
+  .projects,
+  .quickstart {
+    width: min(1180px, 100% - 48px);
+    margin: 0 auto;
+  }
 
-    .hero::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(
-            circle,
-            var(--border-glow) 0%,
-            transparent 60%
-        );
-        opacity: 0.15;
-        z-index: -1;
-        filter: blur(40px);
-    }
+  .hero {
+    padding: 72px 0 52px;
+  }
 
-    .hero-content {
-        text-align: center;
-        max-width: 900px;
-        z-index: 1;
-    }
+  .hero-inner {
+    border: 1px solid var(--border);
+    background:
+      radial-gradient(circle at 85% 0%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 40%),
+      var(--bg-surface);
+    padding: 34px;
+    border-radius: 12px;
+  }
 
-    h1 {
-        font-size: 4rem;
-        font-weight: 700;
-        letter-spacing: 10px;
-        margin-bottom: 20px;
-        color: var(--fg);
-        text-shadow: 0 0 20px var(--accent);
-        text-transform: uppercase;
-    }
+  .kicker {
+    color: var(--accent-dim);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 14px;
+  }
 
-    .subtitle {
-        font-size: 1.3rem;
-        color: var(--fg-dim);
-        margin-bottom: 30px;
-        height: 2em; /* fixed height */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-    }
+  h1 {
+    margin: 0;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    line-height: 1.1;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
 
-    .prompt-arrow {
-        color: var(--accent);
-        font-weight: bold;
-    }
+  .summary {
+    color: var(--fg-dim);
+    max-width: 70ch;
+    margin: 16px 0 0;
+    line-height: 1.7;
+  }
 
-    .cursor {
-        display: inline-block;
-        width: 12px;
-        height: 1.2em;
-        background: var(--accent);
-        animation: blinkCursor 1s infinite;
-        vertical-align: middle;
-    }
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 24px 0 26px;
+  }
 
-    .projects {
-        padding: 60px 40px;
-        max-width: 1200px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 1;
-    }
+  .btn {
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
 
-    .section-title {
-        text-align: center;
-        margin-bottom: 50px;
-    }
+  .btn.primary {
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+    color: var(--fg);
+  }
 
-    .section-title h2 {
-        font-size: 2rem;
-        color: var(--fg);
-        letter-spacing: 5px;
-    }
+  .btn.secondary {
+    color: var(--accent);
+  }
 
-    .section-title .bracket {
-        color: var(--accent-dim);
-    }
+  .btn:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 12px var(--border-glow);
+  }
 
+  .hero-metrics {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .hero-metrics article {
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
+  }
+
+  .hero-metrics h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--accent);
+  }
+
+  .hero-metrics p {
+    margin: 8px 0 0;
+    color: var(--fg-dim);
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .section-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent-dim);
+    margin-bottom: 16px;
+  }
+
+  .flow {
+    margin-top: 10px;
+  }
+
+  .flow-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .flow-grid article {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    background: var(--bg-surface);
+  }
+
+  .flow-grid h3 {
+    margin: 0 0 10px;
+  }
+
+  .flow-grid p {
+    margin: 0;
+    color: var(--fg-dim);
+    line-height: 1.6;
+  }
+
+  .flow-grid a {
+    color: var(--accent);
+  }
+
+  .projects {
+    margin-top: 28px;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .project {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    background: var(--bg-surface);
+    display: grid;
+    gap: 10px;
+  }
+
+  .project.active {
+    background:
+      linear-gradient(
+        160deg,
+        color-mix(in srgb, var(--accent) 7%, transparent),
+        transparent 45%
+      ),
+      var(--bg-surface);
+  }
+
+  .project.roadmap {
+    opacity: 0.93;
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+  }
+
+  .name {
+    color: var(--fg-dim);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .project h3 {
+    margin: 0;
+    font-size: 1.35rem;
+  }
+
+  .project p {
+    margin: 0;
+    color: var(--fg-dim);
+    line-height: 1.6;
+  }
+
+  .project ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--fg-dim);
+    display: grid;
+    gap: 6px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .actions a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--accent-dim);
+    font-size: 0.9rem;
+  }
+
+  .actions a:hover {
+    border-bottom-style: solid;
+  }
+
+  .quickstart {
+    margin: 30px auto 56px;
+  }
+
+  .panel {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: auto;
+    background: #000;
+  }
+
+  pre {
+    margin: 0;
+    padding: 18px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1020px) {
+    .flow-grid,
     .project-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 30px;
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .hero,
+    .flow,
+    .projects,
+    .quickstart {
+      width: min(1180px, 100% - 26px);
     }
 
-    .project-card {
-        background: var(--bg-surface);
-        border: 1px solid var(--border);
-        padding: 30px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-        text-decoration: none;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        clip-path: polygon(
-            20px 0,
-            100% 0,
-            100% calc(100% - 20px),
-            calc(100% - 20px) 100%,
-            0 100%,
-            0 20px
-        );
+    .hero-inner {
+      padding: 18px;
     }
 
-    .project-card:not(.upcoming):hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        border-color: var(--accent);
-        background: var(--bg-hover);
+    .hero-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .project-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: var(--accent-dim);
-        transition: height 0.3s ease;
-    }
-
-    .project-card:not(.upcoming):hover::before {
-        background: var(--accent);
-        box-shadow: 0 0 15px var(--accent);
-    }
-
-    .card-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 25px;
-    }
-
-    .project-card .icon {
-        font-size: 1.2rem;
-        color: var(--accent);
-        font-weight: bold;
-        letter-spacing: 2px;
-    }
-
-    .status {
-        font-size: 0.8rem;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-
-    .status.online {
-        background: rgba(0, 255, 65, 0.1);
-        color: #00ff41;
-        border: 1px solid rgba(0, 255, 65, 0.3);
-        animation: pulse 2s infinite;
-    }
-
-    .status.offline {
-        background: rgba(255, 170, 0, 0.1);
-        color: var(--warning);
-        border: 1px solid rgba(255, 170, 0, 0.3);
-    }
-
-    .project-card h3 {
-        font-size: 1.8rem;
-        margin-bottom: 15px;
-        color: var(--fg);
-        transition: color 0.3s ease;
-    }
-
-    .project-card:not(.upcoming):hover h3 {
-        text-shadow: var(--text-glow);
-    }
-
-    .project-card p {
-        color: var(--fg-dim);
-        line-height: 1.6;
-        margin-bottom: 30px;
-        flex-grow: 1;
-    }
-
-    .card-footer {
-        border-top: 1px dashed var(--border);
-        padding-top: 20px;
-        font-size: 0.9rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .project-card.core .card-footer {
-        color: var(--accent);
-    }
-    .project-card.client .card-footer {
-        color: var(--accent);
-    }
-
-    .project-card.upcoming {
-        opacity: 0.6;
-        border-color: rgba(255, 255, 255, 0.1);
-        cursor: not-allowed;
-    }
-
-    .project-card.upcoming::before {
-        background: var(--warning);
-        opacity: 0.5;
-    }
-
-    .project-card.upcoming .card-footer {
-        color: var(--warning);
-    }
-
-    .link-text {
-        transition: padding-left 0.3s ease;
-    }
-
-    .project-card:not(.upcoming):hover .link-text {
-        padding-left: 10px;
-    }
-
-    @keyframes pulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.4);
-        }
-        70% {
-            box-shadow: 0 0 0 5px rgba(0, 255, 65, 0);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(0, 255, 65, 0);
-        }
-    }
-
-    /* Glitch Effect */
-    .glitch-text {
-        position: relative;
-    }
-
-    .glitch-text::before,
-    .glitch-text::after {
-        content: attr(data-text);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: transparent;
-        pointer-events: none;
-    }
-
-    .glitch-text::before {
-        left: 2px;
-        text-shadow: -2px 0 var(--error);
-        clip: rect(24px, 550px, 90px, 0);
-        animation: glitch-anim 3s infinite linear alternate-reverse;
-    }
-
-    .glitch-text::after {
-        left: -2px;
-        text-shadow: -2px 0 var(--accent);
-        clip: rect(85px, 550px, 140px, 0);
-        animation: glitch-anim 2.5s infinite linear alternate-reverse;
-    }
-
-    @keyframes glitch-anim {
-        0% {
-            clip: rect(70px, 9999px, 71px, 0);
-        }
-        5% {
-            clip: rect(29px, 9999px, 83px, 0);
-        }
-        10% {
-            clip: rect(65px, 9999px, 49px, 0);
-        }
-        15% {
-            clip: rect(20px, 9999px, 18px, 0);
-        }
-        20% {
-            clip: rect(61px, 9999px, 53px, 0);
-        }
-        25% {
-            clip: rect(32px, 9999px, 81px, 0);
-        }
-        30% {
-            clip: rect(98px, 9999px, 66px, 0);
-        }
-        35% {
-            clip: rect(11px, 9999px, 34px, 0);
-        }
-        40% {
-            clip: rect(14px, 9999px, 5px, 0);
-        }
-        45% {
-            clip: rect(1px, 9999px, 20px, 0);
-        }
-        50% {
-            clip: rect(4px, 9999px, 8px, 0);
-        }
-        55% {
-            clip: rect(25px, 9999px, 74px, 0);
-        }
-        60% {
-            clip: rect(9px, 9999px, 10px, 0);
-        }
-        65% {
-            clip: rect(33px, 9999px, 80px, 0);
-        }
-        70% {
-            clip: rect(10px, 9999px, 4px, 0);
-        }
-        75% {
-            clip: rect(8px, 9999px, 91px, 0);
-        }
-        80% {
-            clip: rect(66px, 9999px, 43px, 0);
-        }
-        85% {
-            clip: rect(3px, 9999px, 22px, 0);
-        }
-        90% {
-            clip: rect(87px, 9999px, 58px, 0);
-        }
-        95% {
-            clip: rect(20px, 9999px, 3px, 0);
-        }
-        100% {
-            clip: rect(40px, 9999px, 10px, 0);
-        }
-    }
+  }
 </style>

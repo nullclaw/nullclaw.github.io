@@ -6,29 +6,32 @@
 
   const sections = [
     {
-      title: "Overview",
+      title: "Start Here",
       items: [
+        { label: "Quick Start", href: "/chat-ui/docs/quick-start" },
         { label: "Overview", href: "/chat-ui/docs/overview" },
         { label: "Architecture", href: "/chat-ui/docs/architecture" },
       ],
     },
     {
       title: "Protocol",
+      items: [{ label: "WebChannel v1", href: "/chat-ui/docs/protocol" }],
+    },
+    {
+      title: "Build And Ops",
       items: [
-        { label: "WebChannel v1", href: "/chat-ui/docs/protocol" },
+        { label: "Development", href: "/chat-ui/docs/development" },
+        { label: "Testing", href: "/chat-ui/docs/testing" },
+        { label: "Operations", href: "/chat-ui/docs/operations" },
       ],
     },
     {
-      title: "Development",
-      items: [
-        { label: "Development", href: "/chat-ui/docs/development" },
-        { label: "Deployment", href: "/chat-ui/docs/deployment" },
-        { label: "Theming", href: "/chat-ui/docs/theming" },
-      ],
+      title: "UI",
+      items: [{ label: "Theming", href: "/chat-ui/docs/theming" }],
     },
   ];
 </script>
 
-<DocsLayout sidebarTitle="CHAT UI DOCS" {sections} tocContent={$page.data?.content ?? ""}>
+<DocsLayout sidebarTitle="Chat UI Docs" {sections} tocContent={$page.data?.content ?? ""}>
   {@render children()}
 </DocsLayout>

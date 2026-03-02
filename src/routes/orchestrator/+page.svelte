@@ -1,83 +1,111 @@
 <svelte:head>
-  <title>NullClaw | Agent Orchestrator</title>
+  <title>NullClaw Orchestrator (Roadmap)</title>
 </svelte:head>
 
-<div class="coming-soon">
-  <div class="content">
-    <div class="breadcrumb">
-      <a href="/">NULLCLAW ECOSYSTEM</a> / ORCHESTRATOR
-    </div>
-    <div class="status-badge">[ IN DEVELOPMENT ]</div>
-    <h1>AGENT ORCHESTRATOR</h1>
-    <p>Multi-agent coordination and distribution system for complex distributed reasoning.</p>
-    <div class="terminal-line">&gt; Status: classified // access denied<span class="cursor">_</span></div>
-    <a href="/" class="back-link">&larr; Back to Ecosystem</a>
+<div class="roadmap">
+  <div class="card">
+    <div class="breadcrumb"><a href="/">Ecosystem</a> / Orchestrator</div>
+    <span class="status">IN DEVELOPMENT</span>
+    <h1>Agent Orchestrator</h1>
+    <p>
+      Planned control plane for coordinating multiple agents, routing workload, and
+      exposing orchestration-level observability.
+    </p>
+
+    <h2>Planned Scope</h2>
+    <ul>
+      <li>Task decomposition and delegation policies</li>
+      <li>Execution lifecycle with approvals and retries</li>
+      <li>Health and cost visibility across agent graphs</li>
+    </ul>
+
+    <p class="note">
+      This module is intentionally marked as roadmap only. Once implementation lands,
+      it will appear here with full docs and examples.
+    </p>
+
+    <a href="/" class="back">Back To Ecosystem</a>
   </div>
 </div>
 
 <style>
-  .coming-soon {
-    min-height: calc(100vh - 70px - 85px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
+  .roadmap {
+    min-height: calc(100vh - 70px - 130px);
+    display: grid;
+    place-items: center;
+    padding: 24px;
   }
-  .content { text-align: center; max-width: 600px; }
+
+  .card {
+    width: min(820px, 100%);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--bg-surface);
+    padding: 22px;
+  }
+
   .breadcrumb {
-    color: var(--fg-dim);
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
-  }
-  .breadcrumb a {
     color: var(--accent-dim);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+
+  .breadcrumb a {
+    color: inherit;
     text-decoration: none;
   }
-  .breadcrumb a:hover {
-    color: var(--accent);
-    text-shadow: var(--text-glow);
-  }
-  .status-badge {
+
+  .status {
     display: inline-block;
-    color: var(--warning);
+    padding: 4px 8px;
     border: 1px solid var(--warning);
-    padding: 6px 15px;
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    margin-bottom: 30px;
+    color: var(--warning);
+    border-radius: 999px;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
   }
+
   h1 {
-    font-size: 3rem;
-    letter-spacing: 8px;
-    margin-bottom: 20px;
-    color: var(--fg);
-    text-shadow: 0 0 20px var(--accent);
+    margin: 14px 0 10px;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
   }
-  p {
+
+  p,
+  li {
     color: var(--fg-dim);
-    line-height: 1.6;
-    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  h2 {
+    margin: 18px 0 10px;
     font-size: 1.1rem;
   }
-  .terminal-line {
-    color: var(--warning);
-    margin-bottom: 40px;
-    font-size: 1rem;
+
+  ul {
+    margin: 0;
+    padding-left: 20px;
+    display: grid;
+    gap: 8px;
   }
-  .cursor {
+
+  .note {
+    margin-top: 14px;
+    padding: 12px;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+  }
+
+  .back {
     display: inline-block;
-    width: 10px;
-    height: 1em;
-    background: var(--warning);
-    animation: blinkCursor 1s infinite;
-    vertical-align: middle;
-  }
-  .back-link {
+    margin-top: 18px;
     color: var(--accent);
     text-decoration: none;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
+    border-bottom: 1px dashed var(--accent-dim);
   }
-  .back-link:hover { text-shadow: var(--text-glow); }
+
+  .back:hover {
+    border-bottom-style: solid;
+  }
 </style>

@@ -1,371 +1,298 @@
-<script lang="ts">
-    import { onMount } from "svelte";
-
-    let typedText = $state("");
-    const fullText =
-        "Terminal-style web interface with E2E encryption, streaming, and 5 themes.";
-
-    onMount(() => {
-        let i = 0;
-        const interval = setInterval(() => {
-            typedText = fullText.slice(0, i);
-            i++;
-            if (i > fullText.length) clearInterval(interval);
-        }, 50);
-        return () => clearInterval(interval);
-    });
-</script>
-
 <svelte:head>
-    <title>NullClaw Chat UI | Terminal Web Interface</title>
+  <title>NullClaw Chat UI Documentation</title>
 </svelte:head>
 
-<div class="header">
-    <div class="container">
-        <div class="breadcrumb">
-            <a href="/">NULLCLAW ECOSYSTEM</a> / CHAT UI
-        </div>
-        <h1>NULLCLAW CHAT UI</h1>
-        <p class="subtitle">
-            <span class="prompt-arrow">&gt; </span>
-            {typedText}<span class="cursor">_</span>
-        </p>
+<div class="wrap">
+  <section class="hero">
+    <div class="breadcrumb"><a href="/">Ecosystem</a> / Chat UI</div>
+    <h1>NullClaw Chat UI</h1>
+    <p>
+      Terminal-style web client for NullClaw with pairing, E2E bootstrap, streamed assistant output,
+      tool timeline rendering, and approval flow.
+    </p>
 
-        <div class="stat-badges">
-            <span class="badge">Svelte 5</span>
-            <span class="badge">E2E Encrypted</span>
-            <span class="badge">5 Themes</span>
-            <span class="badge">WebSocket</span>
-        </div>
-
-        <div class="actions">
-            <a href="/chat-ui/docs/overview" class="btn primary">Get Started</a>
-            <a
-                href="https://github.com/nullclaw/nullclaw-chat-ui"
-                target="_blank"
-                class="btn secondary">View on GitHub</a
-            >
-        </div>
+    <div class="actions">
+      <a href="/chat-ui/docs/quick-start" class="btn primary">Quick Start</a>
+      <a href="/chat-ui/docs/protocol" class="btn secondary">Protocol</a>
+      <a href="https://github.com/nullclaw/nullclaw-chat-ui" target="_blank" class="btn secondary">GitHub</a>
     </div>
-</div>
 
-<div class="container">
-    <section class="overview">
-        <div class="feature-card">
-            <div class="icon">[ ENCRYPTION ]</div>
-            <h3>E2E Encryption</h3>
-            <p>
-                X25519 key exchange with ChaCha20-Poly1305 symmetric
-                encryption. Negotiated during pairing, protecting all
-                messages end-to-end.
-            </p>
-        </div>
+    <div class="metrics">
+      <article><h3>10</h3><p>WebChannel event types in `types.ts`</p></article>
+      <article><h3>5</h3><p>client states in `NullclawClient`</p></article>
+      <article><h3>10</h3><p>test suites in `src/lib/*/*.test.ts`</p></article>
+      <article><h3>3</h3><p>localStorage keys for auth/theme/effects</p></article>
+    </div>
+  </section>
 
-        <div class="feature-card">
-            <div class="icon">[ STREAMING ]</div>
-            <h3>Streaming UI</h3>
-            <p>
-                Assistant responses stream in real time via chunked
-                WebSocket events. See output as it is generated, with
-                Markdown rendering and syntax highlighting.
-            </p>
-        </div>
+  <section class="grid">
+    <article>
+      <h2>Start Here</h2>
+      <ul>
+        <li><a href="/chat-ui/docs/quick-start">Quick Start</a></li>
+        <li><a href="/chat-ui/docs/overview">Overview</a></li>
+        <li><a href="/chat-ui/docs/architecture">Architecture</a></li>
+      </ul>
+    </article>
 
-        <div class="feature-card">
-            <div class="icon">[ TOOLS ]</div>
-            <h3>Tool Timeline</h3>
-            <p>
-                Tool calls and results render inline in the chat. Follow
-                what the agent is doing step by step with correlated
-                request IDs.
-            </p>
-        </div>
+    <article>
+      <h2>Protocol</h2>
+      <ul>
+        <li><a href="/chat-ui/docs/protocol">WebChannel v1</a></li>
+      </ul>
+    </article>
 
-        <div class="feature-card">
-            <div class="icon">[ APPROVAL ]</div>
-            <h3>Approval Flow</h3>
-            <p>
-                When the agent needs permission, an approve/reject prompt
-                appears inline. Decisions are sent back over the encrypted
-                channel.
-            </p>
-        </div>
-    </section>
+    <article>
+      <h2>Build & Ops</h2>
+      <ul>
+        <li><a href="/chat-ui/docs/development">Development</a></li>
+        <li><a href="/chat-ui/docs/testing">Testing</a></li>
+        <li><a href="/chat-ui/docs/operations">Operations</a></li>
+      </ul>
+    </article>
 
-    <section class="installation">
-        <h2>
-            <span class="bracket">[</span> QUICK START
-            <span class="bracket">]</span>
-        </h2>
+    <article>
+      <h2>UX</h2>
+      <ul>
+        <li><a href="/chat-ui/docs/theming">Theming</a></li>
+      </ul>
+    </article>
+  </section>
 
-        <div class="code-block">
-            <div class="code-header">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-                <span class="title">terminal - ~</span>
-            </div>
-            <pre><code
-                    ><span class="comment"># Clone and install</span>
-git clone https://github.com/nullclaw/nullclaw-chat-ui.git
-cd nullclaw-chat-ui && npm install
-
-<span class="comment"># Start the dev server</span>
+  <section class="quickstart">
+    <h2>Quick Start</h2>
+    <pre><code>git clone https://github.com/nullclaw/nullclaw-chat-ui.git
+cd nullclaw-chat-ui
+npm install
 npm run dev
 
-<span class="comment"># Open http://localhost:5173</span>
-<span class="comment"># Enter your gateway endpoint + 6-digit PIN</span></code
-                ></pre>
-        </div>
-    </section>
+# open http://localhost:5173
+# endpoint: ws://127.0.0.1:32123/ws
+# local pairing PIN: 123456
+# (requires channels.web in nullclaw config)</code></pre>
+  </section>
+
+  <section class="snapshot">
+    <h2>Code-Derived Snapshot</h2>
+    <p>
+      Source basis: `src/lib/protocol/types.ts`, `src/lib/protocol/client.svelte.ts`,
+      `src/lib/session/*`, `src/lib/stores/session.svelte.ts`, `src/lib/theme.ts`.
+    </p>
+
+    <div class="lists">
+      <article>
+        <h3>Client → Core Events</h3>
+        <p>`pairing_request`, `user_message`, `approval_response`</p>
+      </article>
+
+      <article>
+        <h3>Core → Client Events</h3>
+        <p>
+          `pairing_result`, `assistant_chunk`, `assistant_final`, `tool_call`, `tool_result`,
+          `approval_request`, `error`
+        </p>
+      </article>
+
+      <article>
+        <h3>State Machine</h3>
+        <p>`disconnected` → `connecting` → `pairing` → `paired` → `chatting`</p>
+      </article>
+
+      <article>
+        <h3>Session Persistence</h3>
+        <p>
+          `nullclaw_ui_auth_v1`, `nullclaw_ui_theme`, `nullclaw_ui_effects` with TTL cleanup and
+          unauthorized reset behavior.
+        </p>
+      </article>
+    </div>
+  </section>
 </div>
 
 <style>
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 40px;
+  .wrap {
+    width: min(1120px, 100% - 42px);
+    margin: 0 auto;
+    padding: 26px 0 52px;
+    display: grid;
+    gap: 18px;
+  }
+
+  section {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-surface);
+    padding: 22px;
+  }
+
+  .hero {
+    background:
+      linear-gradient(160deg, color-mix(in srgb, var(--accent) 7%, transparent), transparent 45%),
+      var(--bg-surface);
+  }
+
+  .breadcrumb {
+    color: var(--accent-dim);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+
+  .breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.7rem, 4vw, 2.5rem);
+  }
+
+  .hero p {
+    color: var(--fg-dim);
+    line-height: 1.7;
+    max-width: 74ch;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 18px 0;
+  }
+
+  .btn {
+    text-decoration: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+  }
+
+  .btn.primary {
+    color: var(--fg);
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+
+  .btn.secondary {
+    color: var(--accent);
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  .metrics article {
+    border: 1px dashed var(--border);
+    border-radius: 9px;
+    padding: 12px;
+  }
+
+  .metrics h3 {
+    margin: 0;
+    color: var(--accent);
+    font-size: 1.3rem;
+  }
+
+  .metrics p {
+    margin: 7px 0 0;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .grid article {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+  }
+
+  .grid h2 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+  }
+
+  .grid ul {
+    margin: 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 6px;
+  }
+
+  .grid a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .quickstart pre {
+    margin: 0;
+    padding: 14px;
+    border-radius: 10px;
+    background: #000;
+    overflow: auto;
+    line-height: 1.5;
+  }
+
+  .snapshot > p {
+    color: var(--fg-dim);
+    line-height: 1.6;
+  }
+
+  .lists {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .lists article {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+  }
+
+  .lists h3 {
+    margin: 0 0 8px;
+    font-size: 0.96rem;
+  }
+
+  .lists p {
+    margin: 0;
+    color: var(--fg-dim);
+    line-height: 1.55;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 980px) {
+    .grid,
+    .lists {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .wrap {
+      width: min(1120px, 100% - 24px);
     }
 
-    .header {
-        padding: 80px 0 60px;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 60px;
-        background: linear-gradient(
-            to bottom,
-            transparent,
-            rgba(0, 255, 65, 0.05)
-        );
+    section {
+      padding: 15px;
     }
 
-    .breadcrumb {
-        color: var(--accent-dim);
-        font-weight: bold;
-        letter-spacing: 2px;
-        margin-bottom: 20px;
-        font-size: 0.9rem;
+    .grid,
+    .lists {
+      grid-template-columns: 1fr;
     }
-
-    .breadcrumb a {
-        color: inherit;
-        text-decoration: none;
-        transition: color 0.3s;
-    }
-
-    .breadcrumb a:hover {
-        color: var(--accent);
-        text-shadow: var(--text-glow);
-    }
-
-    h1 {
-        font-size: 4rem;
-        font-weight: 700;
-        letter-spacing: 8px;
-        margin-bottom: 20px;
-        color: var(--fg);
-        text-shadow: 0 0 20px var(--accent);
-    }
-
-    .subtitle {
-        font-size: 1.2rem;
-        color: var(--fg-dim);
-        margin-bottom: 30px;
-        height: 1.5em;
-    }
-
-    .prompt-arrow {
-        color: var(--accent);
-        font-weight: bold;
-    }
-
-    .cursor {
-        display: inline-block;
-        width: 10px;
-        height: 1em;
-        background: var(--accent);
-        animation: blinkCursor 1s infinite;
-        vertical-align: middle;
-    }
-
-    .stat-badges {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        margin-bottom: 30px;
-    }
-
-    .badge {
-        padding: 6px 15px;
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        font-size: 0.85rem;
-        letter-spacing: 1px;
-        font-weight: bold;
-        background: var(--bg-surface);
-        color: var(--accent);
-        border-color: var(--accent-dim);
-        box-shadow: 0 0 10px rgba(0, 255, 65, 0.15);
-    }
-
-    .actions {
-        display: flex;
-        gap: 20px;
-    }
-
-    .btn {
-        padding: 12px 25px;
-        text-decoration: none;
-        font-size: 1rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        border: 1px solid var(--border);
-        transition: all 0.3s ease;
-        clip-path: polygon(
-            10px 0,
-            100% 0,
-            100% calc(100% - 10px),
-            calc(100% - 10px) 100%,
-            0 100%,
-            0 10px
-        );
-    }
-
-    .btn.primary {
-        background: transparent;
-        color: var(--accent);
-        border-color: var(--accent);
-    }
-
-    .btn.primary:hover {
-        background: var(--bg-hover);
-        box-shadow: 0 0 15px var(--border-glow);
-        text-shadow: var(--text-glow);
-    }
-
-    .btn.secondary {
-        background: transparent;
-        color: var(--fg-dim);
-        border-color: var(--border);
-    }
-
-    .btn.secondary:hover {
-        color: var(--fg);
-        border-color: var(--accent-dim);
-        background: var(--bg-hover);
-        box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
-    }
-
-    .overview {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-        margin-bottom: 80px;
-    }
-
-    .feature-card {
-        background: var(--bg-surface);
-        border: 1px solid var(--border);
-        padding: 30px;
-        transition: all 0.3s ease;
-    }
-
-    .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        border-color: var(--accent);
-    }
-
-    .feature-card .icon {
-        font-size: 1.2rem;
-        color: var(--accent);
-        margin-bottom: 20px;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-
-    .feature-card h3 {
-        font-size: 1.5rem;
-        margin-bottom: 15px;
-        color: var(--fg);
-    }
-
-    .feature-card p {
-        color: var(--fg-dim);
-        line-height: 1.6;
-    }
-
-    .installation h2 {
-        font-size: 2rem;
-        color: var(--fg);
-        letter-spacing: 5px;
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .installation .bracket {
-        color: var(--accent-dim);
-    }
-
-    .code-block {
-        background: #000;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        overflow: hidden;
-        margin-bottom: 80px;
-    }
-
-    .code-header {
-        background: var(--bg-surface);
-        padding: 10px 15px;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-    }
-
-    .dot.red {
-        background: #ff5f56;
-    }
-    .dot.yellow {
-        background: #ffbd2e;
-    }
-    .dot.green {
-        background: #27c93f;
-    }
-
-    .code-header .title {
-        margin-left: 10px;
-        color: var(--fg-dim);
-        font-size: 0.9rem;
-    }
-
-    pre {
-        padding: 20px;
-        overflow-x: auto;
-    }
-
-    code {
-        font-family: var(--font-mono);
-        font-size: 0.95rem;
-        line-height: 1.6;
-        color: var(--fg);
-    }
-
-    .comment {
-        color: var(--fg-dim);
-        opacity: 0.7;
-        display: block;
-        margin-top: 10px;
-    }
-
-    pre code {
-        text-shadow: var(--text-glow);
-    }
+  }
 </style>
