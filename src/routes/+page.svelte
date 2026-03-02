@@ -25,10 +25,6 @@
             <span class="prompt-arrow">&gt; </span>
             {typedText}<span class="cursor">_</span>
         </p>
-        <div class="tech-stack">
-            <span class="badge zig">Powered by Zig</span>
-            <span class="badge svelte">Interfaces in Svelte</span>
-        </div>
     </div>
 </div>
 
@@ -176,36 +172,6 @@
         background: var(--accent);
         animation: blinkCursor 1s infinite;
         vertical-align: middle;
-    }
-
-    .tech-stack {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        margin-top: 20px;
-    }
-
-    .badge {
-        padding: 6px 15px;
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        font-size: 0.9rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        background: var(--bg-surface);
-    }
-
-    .badge.zig {
-        color: #f7a41d;
-        border-color: rgba(247, 164, 29, 0.4);
-        box-shadow: 0 0 10px rgba(247, 164, 29, 0.2);
-    }
-
-    .badge.svelte {
-        color: #ff3e00;
-        border-color: rgba(255, 62, 0, 0.4);
-        box-shadow: 0 0 10px rgba(255, 62, 0, 0.2);
     }
 
     .projects {

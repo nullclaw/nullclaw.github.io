@@ -52,44 +52,6 @@
 </div>
 
 <div class="container">
-    <section class="overview">
-        <div class="feature-card">
-            <div class="icon">[ PROVIDERS ]</div>
-            <h3>22+ AI Providers</h3>
-            <p>
-                Anthropic, OpenAI, Gemini, Ollama, OpenRouter, and more.
-                Hot-swappable vtable interfaces with zero lock-in.
-            </p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon">[ CHANNELS ]</div>
-            <h3>19 Messaging Channels</h3>
-            <p>
-                Telegram, Discord, Slack, Signal, Nostr, Matrix, IRC, WhatsApp,
-                Web, and more. All channels run simultaneously.
-            </p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon">[ MEMORY ]</div>
-            <h3>Hybrid Memory System</h3>
-            <p>
-                SQLite with FTS5 + vector cosine similarity. Multiple backends.
-                Adaptive retrieval with RRF and MMR.
-            </p>
-        </div>
-
-        <div class="feature-card">
-            <div class="icon">[ SECURITY ]</div>
-            <h3>Multi-Layer Security</h3>
-            <p>
-                6-digit pairing, ChaCha20-Poly1305 encryption,
-                Landlock/Firejail/Bubblewrap sandbox, audit logging.
-            </p>
-        </div>
-    </section>
-
     <section class="installation">
         <h2>
             <span class="bracket">[</span> QUICK START
@@ -115,6 +77,44 @@ cd nullclaw && zig build -Doptimize=ReleaseSmall
 ./zig-out/bin/nullclaw gateway</code
                 ></pre>
         </div>
+    </section>
+
+    <section class="overview">
+        <a href="/nullclaw/docs/providers" class="feature-card">
+            <div class="icon">[ PROVIDERS ]</div>
+            <h3>22+ AI Providers</h3>
+            <p>
+                Anthropic, OpenAI, Gemini, Ollama, OpenRouter, and more.
+                Hot-swappable vtable interfaces with zero lock-in.
+            </p>
+        </a>
+
+        <a href="/nullclaw/docs/channels" class="feature-card">
+            <div class="icon">[ CHANNELS ]</div>
+            <h3>19 Messaging Channels</h3>
+            <p>
+                Telegram, Discord, Slack, Signal, Nostr, Matrix, IRC, WhatsApp,
+                Web, and more. All channels run simultaneously.
+            </p>
+        </a>
+
+        <a href="/nullclaw/docs/memory" class="feature-card">
+            <div class="icon">[ MEMORY ]</div>
+            <h3>Hybrid Memory System</h3>
+            <p>
+                SQLite with FTS5 + vector cosine similarity. Multiple backends.
+                Adaptive retrieval with RRF and MMR.
+            </p>
+        </a>
+
+        <a href="/nullclaw/docs/security" class="feature-card">
+            <div class="icon">[ SECURITY ]</div>
+            <h3>Multi-Layer Security</h3>
+            <p>
+                6-digit pairing, ChaCha20-Poly1305 encryption,
+                Landlock/Firejail/Bubblewrap sandbox, audit logging.
+            </p>
+        </a>
     </section>
 </div>
 
@@ -266,6 +266,8 @@ cd nullclaw && zig build -Doptimize=ReleaseSmall
         border: 1px solid var(--border);
         padding: 30px;
         transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
     }
 
     .feature-card:hover {
