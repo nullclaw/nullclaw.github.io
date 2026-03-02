@@ -20,7 +20,10 @@
 
   onMount(() => {
     const storedTheme = localStorage.getItem(THEME_KEY);
-    if (storedTheme && themes.includes(storedTheme as (typeof themes)[number])) {
+    if (
+      storedTheme &&
+      themes.includes(storedTheme as (typeof themes)[number])
+    ) {
       theme = storedTheme as (typeof themes)[number];
     }
 
@@ -78,11 +81,19 @@
     </div>
 
     <div class="nav-controls">
-      <button class="icon-btn" onclick={toggleEffects} title="Toggle CRT Effects">
+      <button
+        class="icon-btn"
+        onclick={toggleEffects}
+        title="Toggle CRT Effects"
+      >
         {effectsDisabled ? "FX:OFF" : "FX:ON"}
       </button>
-      <button class="icon-btn" onclick={cycleTheme} title="Cycle Theme">THEME</button>
-      <a href="https://github.com/nullclaw" target="_blank" class="github-btn">GITHUB</a>
+      <button class="icon-btn" onclick={cycleTheme} title="Cycle Theme"
+        >THEME</button
+      >
+      <a href="https://github.com/nullclaw" target="_blank" class="github-btn"
+        >GITHUB</a
+      >
     </div>
   </nav>
 
@@ -94,8 +105,12 @@
     <div class="footer-content">
       <p>NullClaw ecosystem documentation hub</p>
       <div class="repo-links">
-        <a href="https://github.com/nullclaw/nullclaw" target="_blank">nullclaw</a>
-        <a href="https://github.com/nullclaw/nullclaw-chat-ui" target="_blank">nullclaw-chat-ui</a>
+        <a href="https://github.com/nullclaw/nullclaw" target="_blank"
+          >nullclaw</a
+        >
+        <a href="https://github.com/nullclaw/nullclaw-chat-ui" target="_blank"
+          >nullclaw-chat-ui</a
+        >
       </div>
       <div class="terminal-line">root@nullclaw:~# docs --ecosystem _</div>
     </div>
@@ -252,23 +267,56 @@
   }
 
   @media (max-width: 900px) {
-    .nav-links {
-      display: none;
+    .navbar {
+      flex-wrap: wrap;
+      height: auto;
+      padding-top: 14px;
+      padding-bottom: 10px;
     }
 
     .nav-brand .brand-text {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+    }
+
+    .nav-links {
+      order: 3;
+      width: 100%;
+      overflow-x: auto;
+      padding-top: 14px;
+      padding-bottom: 4px;
+      margin-top: 8px;
+      border-top: 1px dashed var(--border);
+      justify-content: flex-start;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-links {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .content {
+      margin-top: 115px;
     }
   }
 
   @media (max-width: 680px) {
     .navbar {
-      padding: 0 14px;
+      padding-left: 14px;
+      padding-right: 14px;
       gap: 8px;
     }
 
     .nav-brand .brand-text {
-      font-size: 0.78rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-brand .bracket {
+      display: none;
     }
 
     .nav-controls {
@@ -277,8 +325,8 @@
 
     .icon-btn,
     .github-btn {
-      padding: 5px 7px;
-      font-size: 0.66rem;
+      padding: 6px 8px;
+      font-size: 0.68rem;
     }
   }
 </style>

@@ -93,8 +93,8 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-mono);
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   position: relative;
   overflow-x: hidden;
@@ -152,14 +152,14 @@ input,
 button,
 textarea {
   font-family: inherit;
-  font-size: inherit;
+  font-size: 0.95em;
   color: inherit;
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 8px 12px;
   outline: none;
-  transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s, text-shadow 0.3s;
+  transition: all 0.2s ease;
   backdrop-filter: blur(4px);
   text-shadow: var(--text-glow);
 }

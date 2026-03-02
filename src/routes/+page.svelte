@@ -7,13 +7,18 @@
     <p class="kicker">NULLCLAW ECOSYSTEM</p>
     <h1>Documentation Hub For Autonomous AI Infrastructure</h1>
     <p class="summary">
-      Core runtime in Zig, terminal-first web UI in Svelte, and upcoming orchestration
-      products. This portal is structured for fast onboarding and deep technical reference.
+      Core runtime in Zig, terminal-first web UI in Svelte, and upcoming
+      orchestration products. This portal is structured for fast onboarding and
+      deep technical reference.
     </p>
 
     <div class="hero-actions">
-      <a href="/nullclaw/docs/getting-started" class="btn primary">NullClaw Quick Start</a>
-      <a href="/chat-ui/docs/quick-start" class="btn secondary">Chat UI Quick Start</a>
+      <a href="/nullclaw/docs/getting-started" class="btn primary"
+        >NullClaw Quick Start</a
+      >
+      <a href="/chat-ui/docs/quick-start" class="btn secondary"
+        >Chat UI Quick Start</a
+      >
     </div>
 
     <div class="hero-metrics">
@@ -50,15 +55,15 @@
     <article>
       <h3>2. Client</h3>
       <p>
-        <a href="/chat-ui">NullClaw Chat UI</a> pairs via PIN, streams events, renders tools,
-        and handles approvals.
+        <a href="/chat-ui">NullClaw Chat UI</a> pairs via PIN, streams events, renders
+        tools, and handles approvals.
       </p>
     </article>
     <article>
       <h3>3. Expansion</h3>
       <p>
-        Orchestrator and Task Tracker are listed as roadmap modules and will be attached into
-        the same ecosystem docs.
+        Orchestrator and Task Tracker are listed as roadmap modules and will be
+        attached into the same ecosystem docs.
       </p>
     </article>
   </div>
@@ -74,7 +79,8 @@
       </div>
       <h3>NullClaw</h3>
       <p>
-        Fastest, smallest, and fully autonomous AI assistant infrastructure written in Zig.
+        Fastest, smallest, and fully autonomous AI assistant infrastructure
+        written in Zig.
       </p>
       <ul>
         <li>CLI + gateway + channel runtime</li>
@@ -83,7 +89,8 @@
       </ul>
       <div class="actions">
         <a href="/nullclaw/docs/getting-started">Docs</a>
-        <a href="https://github.com/nullclaw/nullclaw" target="_blank">GitHub</a>
+        <a href="https://github.com/nullclaw/nullclaw" target="_blank">GitHub</a
+        >
       </div>
     </article>
 
@@ -94,7 +101,8 @@
       </div>
       <h3>NullClaw Chat UI</h3>
       <p>
-        Svelte-based terminal interface implementing WebChannel v1, E2E messaging, and approval UX.
+        Svelte-based terminal interface implementing WebChannel v1, E2E
+        messaging, and approval UX.
       </p>
       <ul>
         <li>Protocol-typed transport client</li>
@@ -103,7 +111,9 @@
       </ul>
       <div class="actions">
         <a href="/chat-ui/docs/quick-start">Docs</a>
-        <a href="https://github.com/nullclaw/nullclaw-chat-ui" target="_blank">GitHub</a>
+        <a href="https://github.com/nullclaw/nullclaw-chat-ui" target="_blank"
+          >GitHub</a
+        >
       </div>
     </article>
 
@@ -114,7 +124,8 @@
       </div>
       <h3>Task Tracker</h3>
       <p>
-        Planned task-level control surface for autonomous execution, tracking, and review loops.
+        Planned task-level control surface for autonomous execution, tracking,
+        and review loops.
       </p>
       <ul>
         <li>Execution queue and state transitions</li>
@@ -133,7 +144,8 @@
       </div>
       <h3>Orchestrator</h3>
       <p>
-        Planned control plane for multi-agent scheduling, delegation, coordination, and observability.
+        Planned control plane for multi-agent scheduling, delegation,
+        coordination, and observability.
       </p>
       <ul>
         <li>Task routing across specialized agents</li>
@@ -150,7 +162,8 @@
 <section class="quickstart">
   <div class="section-title">Ecosystem Quick Start</div>
   <div class="panel">
-    <pre><code># 1) Core runtime
+    <pre><code
+        ># 1) Core runtime
 git clone https://github.com/nullclaw/nullclaw.git
 cd nullclaw
 zig build -Doptimize=ReleaseSmall
@@ -164,7 +177,8 @@ npm install
 npm run dev
 # open http://localhost:5173
 # endpoint: ws://127.0.0.1:32123/ws
-# pairing PIN: 123456</code></pre>
+# pairing PIN: 123456</code
+      ></pre>
   </div>
 </section>
 
@@ -183,8 +197,11 @@ npm run dev
 
   .hero-inner {
     border: 1px solid var(--border);
-    background:
-      radial-gradient(circle at 85% 0%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 40%),
+    background: radial-gradient(
+        circle at 85% 0%,
+        color-mix(in srgb, var(--accent) 24%, transparent),
+        transparent 40%
+      ),
       var(--bg-surface);
     padding: 34px;
     border-radius: 12px;
@@ -329,8 +346,7 @@ npm run dev
   }
 
   .project.active {
-    background:
-      linear-gradient(
+    background: linear-gradient(
         160deg,
         color-mix(in srgb, var(--accent) 7%, transparent),
         transparent 45%
@@ -432,8 +448,25 @@ npm run dev
       width: min(1180px, 100% - 26px);
     }
 
+    .hero {
+      padding: 30px 0 40px;
+    }
+
     .hero-inner {
-      padding: 18px;
+      padding: 24px 18px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+    }
+
+    .hero-actions {
+      justify-content: stretch;
+    }
+
+    .hero-actions .btn {
+      width: 100%;
+      text-align: center;
     }
 
     .hero-metrics {
