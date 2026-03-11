@@ -8,11 +8,11 @@
   const EFFECTS_KEY = "nullclaw_docs_effects";
   const themes = [
     "theme-matrix",
+    "theme-8bit-lobster",
     "theme-synthwave",
     "theme-amber",
     "theme-dracula",
     "theme-light",
-    "theme-8bit-lobster",
   ] as const;
 
   let isScrolled = $state(false);

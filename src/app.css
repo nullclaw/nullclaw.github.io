@@ -16,6 +16,11 @@ body.theme-matrix {
     --border-glow: rgba(0, 255, 65, 0.7);
     --text-glow: 0 0 8px rgba(0, 255, 65, 0.6);
     --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+
+    /* Panels & Code Blocks */
+    --panel-bg: rgba(0, 0, 0, 0.6);
+    --panel-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 4px 12px rgba(0, 0, 0, 0.3);
+    --panel-pre-text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
 }
 
 body.theme-dracula {
@@ -95,6 +100,10 @@ body.theme-light {
     --border: rgba(0, 0, 0, 0.1);
     --border-glow: rgba(0, 112, 42, 0.3);
     --text-glow: none;
+
+    --panel-bg: rgba(255, 255, 255, 0.6);
+    --panel-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.05);
+    --panel-pre-text-shadow: none;
 }
 
 *,
