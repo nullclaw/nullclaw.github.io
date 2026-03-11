@@ -14,24 +14,9 @@ NullClaw is the runtime layer of the ecosystem: it executes prompts, tools, memo
 - you want provider + tool + memory execution in one process
 - you need channel/gateway delivery without full task orchestration
 
-## Do Not Use NullClaw Alone When
+## Ecosystem Integration
 
-- you need multi-step DAG orchestration across workers (use `nullboiler`)
-- you need long-lived pipeline stages, lease claiming, gates, and queue ops (use `nulltickets`)
-
-## Code-Derived Snapshot
-
-- **CLI commands:** 19 top-level commands in `src/main.zig`
-- **Channels:** 20 entries in `src/channel_catalog.zig`
-- **Provider aliases:** 89 OpenAI-compatible aliases in `src/providers/factory.zig`
-- **Tool specs:** 33 unique `tool_name` values in `src/tools/*.zig`
-- **Memory backends:** 9 known backends in `src/memory/engines/registry.zig`
-
-## Product Boundary
-
-- `nullclaw`: runtime execution (providers, tools, memory, channels)
-- `nullboiler`: orchestration graph (runs, steps, workers, retries, approvals)
-- `nulltickets`: task control plane (pipelines, leases, transitions, gates)
+For orchestrated pipelines, multi-step DAGs, robust task queueing, and full ecosystem management, please refer to the [NullHub Ecosystem](https://nullhub.io). NullClaw is designed to be the single-node execution engine within that broader ecosystem.
 
 ## Read Next
 

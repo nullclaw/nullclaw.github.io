@@ -7,7 +7,7 @@ Security controls are implemented in `src/security/*` and enforced during runtim
 - `pairing.zig`: pairing and token guards
 - `policy.zig`: command/path risk controls
 - `sandbox.zig` + adapters (`landlock`, `firejail`, `bubblewrap`, `docker`, `detect`)
-- `audit.zig` and `tracker.zig`: security-relevant event tracking
+- `audit.zig`: security-relevant event tracking
 - `secrets.zig`: secret handling helpers
 
 ## Default Security Posture
