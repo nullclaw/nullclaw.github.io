@@ -74,13 +74,9 @@
     </div>
 
     <div class="nav-links">
-      <a href="/">Ecosystem</a>
-      <a href="https://nullhub.io">NullHub Docs</a>
-      <a href="/nullclaw/docs/getting-started">NullClaw Docs</a>
-      <a href="/chat-ui/docs/quick-start">Chat UI Docs</a>
-      <a href="/nullboiler/docs/quick-start">NullBoiler Docs</a>
-      <a href="/nulltickets/docs/quick-start">NullTickets Docs</a>
-      <a href="/orchestrator">Roadmap</a>
+      <a href="/">Overview</a>
+      <a href="/nullclaw/docs/getting-started">Docs</a>
+      <a href="https://nullhub.io">NullHub Ecosystem</a>
     </div>
 
     <div class="nav-controls">
@@ -106,24 +102,14 @@
 
   <footer>
     <div class="footer-content">
-      <p>NullClaw ecosystem documentation hub</p>
+      <p>NullClaw — Autonomous AI agent runtime</p>
       <div class="repo-links">
-        <a href="https://github.com/nullclaw/nullhub" target="_blank">nullhub</a
-        >
         <a href="https://github.com/nullclaw/nullclaw" target="_blank"
           >nullclaw</a
         >
-        <a href="https://github.com/nullclaw/nullclaw-chat-ui" target="_blank"
-          >nullclaw-chat-ui</a
-        >
-        <a href="https://github.com/nullclaw/nullboiler" target="_blank"
-          >nullboiler</a
-        >
-        <a href="https://github.com/nullclaw/nulltickets" target="_blank"
-          >nulltickets</a
-        >
+        <a href="https://nullhub.io" target="_blank">nullhub.io</a>
       </div>
-      <div class="terminal-line">root@nullclaw:~# docs --ecosystem _</div>
+      <div class="terminal-line">nullclaw@runtime:~# agent --ready _</div>
     </div>
   </footer>
 </div>

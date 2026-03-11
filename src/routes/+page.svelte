@@ -1,24 +1,25 @@
 <svelte:head>
-  <title>NullClaw Ecosystem Docs</title>
+  <title>NullClaw — Autonomous AI Agent Runtime</title>
 </svelte:head>
 
 <section class="hero">
   <div class="hero-inner">
-    <p class="kicker">NULLCLAW ECOSYSTEM</p>
-    <h1>Documentation Hub For Autonomous AI Infrastructure</h1>
+    <p class="kicker">NULLCLAW RUNTIME</p>
+    <h1>The Fastest Autonomous AI Agent Runtime Written in Zig</h1>
     <p class="summary">
-      Documentation for the `nullclaw` agent runtime and its corresponding
-      `nullclaw-chat-ui` web client. Note: for orchestrated pipelines and task
-      tracking, please refer to the
-      <a href="https://nullhub.io">NullHub Ecosystem</a>.
+      NullClaw is a zero-dependency, self-contained AI agent execution runtime.
+      It handles provider integration, tool execution, memory, channels, and
+      gateway — everything you need to run autonomous agents locally or on a
+      server. Looking for the full ecosystem?
+      <a href="https://nullhub.io">See NullHub</a>.
     </p>
 
     <div class="hero-actions">
       <a href="/nullclaw/docs/getting-started" class="btn primary"
-        >NullClaw Quick Start</a
+        >Get Started</a
       >
-      <a href="/chat-ui/docs/quick-start" class="btn secondary"
-        >Chat UI Quick Start</a
+      <a href="https://github.com/nullclaw/nullclaw" class="btn secondary"
+        >GitHub</a
       >
       <a href="https://nullhub.io" class="btn secondary">NullHub Ecosystem</a>
     </div>
@@ -30,7 +31,11 @@
       </article>
       <article>
         <h3>0</h3>
-        <p>external database dependencies</p>
+        <p>external dependencies</p>
+      </article>
+      <article>
+        <h3>Zig</h3>
+        <p>single-binary, zero GC</p>
       </article>
       <article>
         <h3>Terminal + Web</h3>
@@ -41,114 +46,124 @@
 </section>
 
 <section class="projects">
-  <div class="section-title">Projects</div>
+  <div class="section-title">Core Capabilities</div>
   <div class="project-grid">
     <article class="project active">
       <div class="top">
-        <span class="tag">ACTIVE</span>
-        <span class="name">Core Runtime</span>
+        <span class="tag">CORE</span>
+        <span class="name">Providers</span>
       </div>
-      <h3>NullClaw</h3>
+      <h3>LLM Provider Integration</h3>
       <p>
-        Fastest, smallest, and fully autonomous AI assistant infrastructure
-        written in Zig.
+        Pluggable provider layer with support for OpenRouter, OpenAI-compatible
+        APIs, and custom endpoints.
       </p>
       <ul>
-        <li>Providers, channels, tools, memory, policy</li>
-        <li>Terminal and gateway operation modes</li>
-        <li>Execution runtime for worker agents</li>
+        <li>Automatic model discovery and selection</li>
+        <li>Streaming and non-streaming completions</li>
+        <li>Key rotation and rate limit handling</li>
       </ul>
       <div class="actions">
-        <a href="/nullclaw/docs/getting-started">Docs</a>
-        <a href="https://github.com/nullclaw/nullclaw" target="_blank">GitHub</a
-        >
+        <a href="/nullclaw/docs/providers">Provider Docs</a>
       </div>
     </article>
 
     <article class="project active">
       <div class="top">
-        <span class="tag">ACTIVE</span>
-        <span class="name">Web Client</span>
+        <span class="tag">CORE</span>
+        <span class="name">Tools</span>
       </div>
-      <h3>NullClaw Chat UI</h3>
+      <h3>Tool Execution Engine</h3>
       <p>
-        Svelte terminal-style client for WebChannel v1 pairing, streaming, tool
-        timeline rendering, and approvals.
+        Run shell commands, file operations, and custom tools with approval
+        policies and sandboxing.
       </p>
       <ul>
-        <li>Browser-first operator surface for nullclaw runtime</li>
-        <li>Protocol-typed state machine and reconnect behavior</li>
-        <li>Session persistence and theming controls</li>
+        <li>Built-in file, shell, and search tools</li>
+        <li>Configurable auto-approve and deny lists</li>
+        <li>Execution timeout and resource controls</li>
       </ul>
       <div class="actions">
-        <a href="/chat-ui/docs/quick-start">Docs</a>
-        <a href="https://github.com/nullclaw/nullclaw-chat-ui" target="_blank"
-          >GitHub</a
-        >
+        <a href="/nullclaw/docs/tools">Tools Docs</a>
       </div>
     </article>
 
-    <article class="project roadmap">
+    <article class="project active">
       <div class="top">
-        <span class="tag">IN DEVELOPMENT</span>
-        <span class="name">Roadmap</span>
+        <span class="tag">CORE</span>
+        <span class="name">Channels</span>
       </div>
-      <h3>Orchestrator (Next Layer)</h3>
+      <h3>Communication Channels</h3>
       <p>
-        Higher-level orchestration and ecosystem glue is still in active product
-        development.
+        Terminal, WebSocket, and gateway modes for interacting with agents in
+        different operational contexts.
       </p>
       <ul>
-        <li>Cross-system policy and scheduling views</li>
-        <li>Global observability and tenancy controls</li>
-        <li>Long-term ecosystem control surface</li>
+        <li>Terminal mode for local interactive sessions</li>
+        <li>WebChannel v1 protocol for browser clients</li>
+        <li>Gateway mode for headless worker execution</li>
       </ul>
       <div class="actions">
-        <a href="/orchestrator">Roadmap Page</a>
+        <a href="/nullclaw/docs/channels">Channels Docs</a>
       </div>
     </article>
-  </div>
-</section>
 
-<section class="boundaries">
-  <div class="section-title">Product Boundaries</div>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th>Primary Responsibility</th>
-          <th>What It Owns</th>
-          <th>What It Does Not Own</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>NullClaw</td>
-          <td>Agent runtime and execution</td>
-          <td>Provider calls, tool execution, memory, channels, gateway</td>
-          <td>Cross-task queueing and stage lifecycle history</td>
-        </tr>
-      </tbody>
-    </table>
+    <article class="project active">
+      <div class="top">
+        <span class="tag">CORE</span>
+        <span class="name">Memory</span>
+      </div>
+      <h3>Context & Memory</h3>
+      <p>
+        Conversation history, session persistence, and context window management
+        for long-running agent interactions.
+      </p>
+      <ul>
+        <li>Auto-compacting context windows</li>
+        <li>Session save/restore across restarts</li>
+        <li>Structured memory for tool outputs</li>
+      </ul>
+      <div class="actions">
+        <a href="/nullclaw/docs/memory">Memory Docs</a>
+      </div>
+    </article>
   </div>
 </section>
 
 <section class="scenarios">
-  <div class="section-title">When To Use What</div>
+  <div class="section-title">When To Use NullClaw</div>
   <div class="scenario-grid">
     <article>
-      <h3>Only NullClaw</h3>
+      <h3>Interactive Agent Sessions</h3>
       <p class="lead">
-        Best for single-assistant flows with no queue orchestration.
+        Best for single-assistant flows where one engineer or bot handles tasks
+        end-to-end.
       </p>
       <p>
-        <strong>Use when:</strong> one engineer or one bot session handles tasks
-        end-to-end, and you need fast local execution with tools/providers.
+        Run NullClaw in terminal mode, ask it to refactor a module, run tests,
+        and open a PR — all in one interactive session.
+      </p>
+    </article>
+    <article>
+      <h3>Headless Worker Execution</h3>
+      <p class="lead">
+        Best for automated pipelines where agents run without human interaction.
       </p>
       <p>
-        <strong>Real software example:</strong> a maintainer asks the assistant to
-        refactor a module, run tests, and open a PR summary in one interactive session.
+        Run NullClaw in gateway mode and dispatch tasks from an orchestrator
+        like
+        <a href="https://nullhub.io/nullboiler/docs/quick-start">NullBoiler</a>.
+      </p>
+    </article>
+    <article>
+      <h3>Browser-Based Operation</h3>
+      <p class="lead">Best for teams that need a visual operator surface.</p>
+      <p>
+        Pair NullClaw with
+        <a href="https://nullhub.io/chat-ui/docs/quick-start"
+          >NullClaw Chat UI</a
+        >
+        for real-time streaming, tool timeline, and approval workflows.
       </p>
     </article>
   </div>
@@ -158,18 +173,19 @@
   <div class="section-title">Quick Start</div>
   <div class="panel">
     <pre><code
-        ># The easiest way to get started is with NullHub!
-# This single binary will download, install, and wire up the rest of the ecosystem.
-# See https://nullhub.io for more.
-
-# -------------------------------------------------------------
-# Or, if you want to run NullClaw manually from source:
-
+        ># Clone and build
 git clone https://github.com/nullclaw/nullclaw.git
 cd nullclaw
 zig build -Doptimize=ReleaseSmall
-./zig-out/bin/nullclaw onboard --provider openrouter --api-key &lt;API_KEY&gt;
-./zig-out/bin/nullclaw agent -m "hello from nullclaw"</code
+
+# Onboard a provider
+./zig-out/bin/nullclaw onboard --provider openrouter --api-key &lt;YOUR_KEY&gt;
+
+# Start an interactive agent session
+./zig-out/bin/nullclaw agent -m "hello from nullclaw"
+
+# Or use NullHub to install everything at once:
+# https://nullhub.io</code
       ></pre>
   </div>
 </section>
@@ -177,7 +193,6 @@ zig build -Doptimize=ReleaseSmall
 <style>
   .hero,
   .projects,
-  .boundaries,
   .scenarios,
   .quickstart {
     width: min(1180px, 100% - 48px);
@@ -316,10 +331,6 @@ zig build -Doptimize=ReleaseSmall
       var(--bg-surface);
   }
 
-  .project.roadmap {
-    opacity: 0.93;
-  }
-
   .top {
     display: flex;
     justify-content: space-between;
@@ -405,7 +416,6 @@ zig build -Doptimize=ReleaseSmall
   @media (max-width: 700px) {
     .hero,
     .projects,
-    .boundaries,
     .scenarios,
     .quickstart {
       width: min(1180px, 100% - 26px);
