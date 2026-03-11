@@ -75,6 +75,7 @@
 
     <div class="nav-links">
       <a href="/">Ecosystem</a>
+      <a href="https://nullhub.io">NullHub Docs</a>
       <a href="/nullclaw/docs/getting-started">NullClaw Docs</a>
       <a href="/chat-ui/docs/quick-start">Chat UI Docs</a>
       <a href="/nullboiler/docs/quick-start">NullBoiler Docs</a>
@@ -107,6 +108,8 @@
     <div class="footer-content">
       <p>NullClaw ecosystem documentation hub</p>
       <div class="repo-links">
+        <a href="https://github.com/nullclaw/nullhub" target="_blank">nullhub</a
+        >
         <a href="https://github.com/nullclaw/nullclaw" target="_blank"
           >nullclaw</a
         >
