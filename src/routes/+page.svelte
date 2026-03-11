@@ -7,11 +7,11 @@
     <p class="kicker">NULLCLAW RUNTIME</p>
     <h1>The Fastest Autonomous AI Agent Runtime Written in Zig</h1>
     <p class="summary">
-      NullClaw is a zero-dependency, self-contained AI agent execution runtime.
-      It handles provider integration, tool execution, memory, channels, and
-      gateway — everything you need to run autonomous agents locally or on a
-      server. Looking for the full ecosystem?
-      <a href="https://nullhub.io">See NullHub</a>.
+      Zero-dependency, single-binary AI agent execution runtime. Providers,
+      tools, memory, channels, and gateway — everything you need to run
+      autonomous agents locally or on a server. Part of the <a
+        href="https://nullhub.io">NullHub ecosystem</a
+      >.
     </p>
 
     <div class="hero-actions">
@@ -21,7 +21,6 @@
       <a href="https://github.com/nullclaw/nullclaw" class="btn secondary"
         >GitHub</a
       >
-      <a href="https://nullhub.io" class="btn secondary">NullHub Ecosystem</a>
     </div>
 
     <div class="hero-metrics">
