@@ -12,6 +12,7 @@
     "theme-amber",
     "theme-dracula",
     "theme-light",
+    "theme-8bit-lobster",
   ] as const;
 
   let isScrolled = $state(false);

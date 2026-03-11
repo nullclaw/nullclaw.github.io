@@ -51,19 +51,33 @@ body.theme-synthwave {
 }
 
 body.theme-amber {
-    /* Theme: Amber (Void & Neon) */
-    --bg: #0a0500;
-    --bg-surface: rgba(28, 15, 0, 0.75);
-    --bg-hover: rgba(66, 32, 0, 0.85);
-    --fg: #ffebb0;
-    --fg-dim: #d18b00;
-    --accent: #ffb000;
-    --accent-dim: #b37b00;
-    --error: #ff4400;
-    --warning: #ffea00;
-    --border: rgba(255, 176, 0, 0.3);
-    --border-glow: rgba(255, 176, 0, 0.7);
-    --text-glow: 0 0 8px rgba(255, 176, 0, 0.5);
+  --bg: #1c0f00;
+  --bg-surface: rgba(28, 15, 0, 0.85);
+  --bg-hover: rgba(66, 32, 0, 0.8);
+  --fg: #ffb000;
+  --fg-dim: #cc8d00;
+  --accent: #ffb000;
+  --accent-dim: #b37b00;
+  --error: #ff4400;
+  --warning: #ffea00;
+  --border: rgba(255, 176, 0, 0.35);
+  --border-glow: rgba(255, 176, 0, 0.55);
+  --text-glow: 0 0 5px rgba(255, 176, 0, 0.4);
+}
+
+body.theme-8bit-lobster {
+  --bg: #0d0505;
+  --bg-surface: rgba(13, 5, 5, 0.85);
+  --bg-hover: rgba(40, 10, 10, 0.8);
+  --fg: #ffefef;
+  --fg-dim: #ccbbbb;
+  --accent: #ff3333;
+  --accent-dim: #cc0000;
+  --error: #ff5555;
+  --warning: #ffaa00;
+  --border: rgba(255, 51, 51, 0.4);
+  --border-glow: rgba(255, 51, 51, 0.6);
+  --text-glow: 0 0 6px rgba(255, 51, 51, 0.5);
 }
 
 body.theme-light {
