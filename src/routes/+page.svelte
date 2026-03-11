@@ -5,13 +5,12 @@
 <section class="hero">
   <div class="hero-inner">
     <p class="kicker">NULLCLAW RUNTIME</p>
-    <h1>The Fastest Autonomous AI Agent Runtime Written in Zig</h1>
+    <h1>The High-Performance Autonomous AI Agent Runtime</h1>
     <p class="summary">
-      Zero-dependency, single-binary AI agent execution runtime. Providers,
-      tools, memory, channels, and gateway — everything you need to run
-      autonomous agents locally or on a server. Part of the <a
-        href="https://nullhub.io">NullHub ecosystem</a
-      >.
+      Zero-dependency, single-binary execution engine for autonomous AI agents.
+      Features integrated providers, tools, memory, and a multi-channel gateway
+      — everything you need to run agents locally or deploy them to production.
+      Part of the <a href="https://nullhub.io">NullHub ecosystem</a>.
     </p>
 
     <div class="hero-actions">
@@ -52,10 +51,10 @@
         <span class="tag">CORE</span>
         <span class="name">Providers</span>
       </div>
-      <h3>Universal Provider Multiplexer</h3>
+      <h3>Universal Model Multiplexer</h3>
       <p>
-        Pluggable model abstraction layer with support for OpenRouter,
-        OpenAI-compatible APIs, and custom endpoints.
+        High-throughput model abstraction layer supporting OpenRouter,
+        OpenAI-compatible APIs, and custom local or remote endpoints.
       </p>
       <ul>
         <li>Automatic model discovery and selection</li>
@@ -74,8 +73,8 @@
       </div>
       <h3>Tool Execution Engine</h3>
       <p>
-        Run shell commands, file operations, and custom tools with approval
-        policies and sandboxing.
+        Securely execute shell commands, file operations, and custom scripts
+        with robust approval policies and strict sandboxing constraints.
       </p>
       <ul>
         <li>Built-in file, shell, and search tools</li>
@@ -94,8 +93,8 @@
       </div>
       <h3>Communication Channels</h3>
       <p>
-        Terminal, WebSocket, and gateway modes for interacting with agents in
-        different operational contexts.
+        Terminal, WebSocket, and headless gateway modes for seamless integration
+        into any operational context or external infrastructure.
       </p>
       <ul>
         <li>Terminal mode for local interactive sessions</li>
@@ -114,8 +113,8 @@
       </div>
       <h3>Context & Memory</h3>
       <p>
-        Conversation history, session persistence, and context window management
-        for long-running agent interactions.
+        Advanced conversation history, state persistence, and automatic context
+        window optimization for long-running, multi-turn agent threads.
       </p>
       <ul>
         <li>Auto-compacting context windows</li>
@@ -135,34 +134,38 @@
     <article>
       <h3>Interactive Agent Sessions</h3>
       <p class="lead">
-        Best for single-assistant flows where one engineer or bot handles tasks
-        end-to-end.
+        Ideal for single-agent workflows where a dedicated assistant handles
+        complex, multi-step tasks end-to-end.
       </p>
       <p>
-        Run NullClaw in terminal mode, ask it to refactor a module, run tests,
-        and open a PR — all in one interactive session.
+        Launch NullClaw in terminal mode to refactor code, execute tests, and
+        open PRs interactively with human-in-the-loop oversight.
       </p>
     </article>
     <article>
       <h3>Headless Worker Execution</h3>
       <p class="lead">
-        Best for automated pipelines where agents run without human interaction.
+        Ideal for automated background pipelines where agents execute
+        autonomously without human supervision.
       </p>
       <p>
-        Run NullClaw in gateway mode and dispatch tasks from an orchestrator
-        like
+        Deploy NullClaw in gateway mode and dispatch automated task assignments
+        directly from an orchestrator like
         <a href="https://nullhub.io/nullboiler/docs/quick-start">NullBoiler</a>.
       </p>
     </article>
     <article>
       <h3>Browser-Based Operation</h3>
-      <p class="lead">Best for teams that need a visual operator surface.</p>
+      <p class="lead">
+        Ideal for teams requiring a comprehensive visual operator dashboard.
+      </p>
       <p>
-        Pair NullClaw with
+        Pair NullClaw with the
         <a href="https://nullhub.io/chat-ui/docs/quick-start"
-          >NullClaw Chat UI</a
+          >NullHub Ecosystem</a
         >
-        for real-time streaming, tool timeline, and approval workflows.
+        for real-time streaming, tool execution timelines, and visual human-in-the-loop
+        approvals.
       </p>
     </article>
   </div>
