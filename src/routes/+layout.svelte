@@ -99,7 +99,7 @@
       {/if}
       <div class="theme-dropdown-container">
         <button class="icon-btn theme-select" onclick={() => themeDropdownOpen = !themeDropdownOpen} title="Theme">
-          THEME: {getThemeDisplayName(theme)}
+          THEME
         </button>
         {#if themeDropdownOpen}
           <div class="theme-dropdown-menu">
@@ -108,7 +108,7 @@
                 class="theme-option {theme === t ? 'active' : ''}" 
                 onclick={() => handleThemeSelection(t)}
               >
-                THEME: {getThemeDisplayName(t)}
+                {getThemeDisplayName(t)}
               </button>
             {/each}
           </div>
