@@ -52,10 +52,10 @@
         <span class="tag">CORE</span>
         <span class="name">Providers</span>
       </div>
-      <h3>LLM Provider Integration</h3>
+      <h3>Universal Provider Multiplexer</h3>
       <p>
-        Pluggable provider layer with support for OpenRouter, OpenAI-compatible
-        APIs, and custom endpoints.
+        Pluggable model abstraction layer with support for OpenRouter,
+        OpenAI-compatible APIs, and custom endpoints.
       </p>
       <ul>
         <li>Automatic model discovery and selection</li>
@@ -203,15 +203,35 @@ zig build -Doptimize=ReleaseSmall
   }
 
   .hero-inner {
+    position: relative;
     border: 1px solid var(--border);
     background: radial-gradient(
         circle at 85% 0%,
-        color-mix(in srgb, var(--accent) 24%, transparent),
-        transparent 40%
+        color-mix(in srgb, var(--accent) 15%, transparent),
+        transparent 45%
       ),
       var(--bg-surface);
-    padding: 34px;
-    border-radius: 12px;
+    padding: 40px;
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+  }
+
+  .hero-inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent,
+      rgba(255, 255, 255, 0.02) 40%,
+      transparent
+    );
+    pointer-events: none;
   }
 
   .kicker {
@@ -223,10 +243,15 @@ zig build -Doptimize=ReleaseSmall
 
   h1 {
     margin: 0;
-    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
     line-height: 1.1;
     max-width: 18ch;
     text-wrap: balance;
+    background: linear-gradient(180deg, var(--fg) 0%, var(--fg-dim) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   }
 
   .summary {
@@ -312,22 +337,39 @@ zig build -Doptimize=ReleaseSmall
     gap: 12px;
   }
 
-  .project {
+  .project,
+  .scenario-grid article {
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px;
+    border-radius: 14px;
+    padding: 24px;
     background: var(--bg-surface);
     display: grid;
-    gap: 10px;
+    gap: 12px;
+    backdrop-filter: blur(12px);
+    transition:
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
   .project.active {
     background: linear-gradient(
         160deg,
-        color-mix(in srgb, var(--accent) 7%, transparent),
-        transparent 45%
+        color-mix(in srgb, var(--accent) 5%, transparent),
+        transparent 50%
       ),
       var(--bg-surface);
+  }
+
+  .project:hover,
+  .scenario-grid article:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow:
+      0 12px 32px rgba(0, 0, 0, 0.5),
+      0 0 16px var(--border-glow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .top {
@@ -395,14 +437,20 @@ zig build -Doptimize=ReleaseSmall
     border: 1px solid var(--border);
     border-radius: 12px;
     overflow: auto;
-    background: #000;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    box-shadow:
+      inset 0 0 20px rgba(0, 0, 0, 0.8),
+      0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
   pre {
     margin: 0;
-    padding: 18px;
-    font-size: 0.88rem;
-    line-height: 1.5;
+    padding: 24px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--fg);
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
   }
 
   @media (max-width: 1100px) {
