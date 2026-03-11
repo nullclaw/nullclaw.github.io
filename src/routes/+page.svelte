@@ -367,12 +367,7 @@ zig build -Doptimize=ReleaseSmall
 
   .project:hover,
   .scenario-grid article:hover {
-    transform: translateY(-4px);
     border-color: var(--accent);
-    box-shadow:
-      0 12px 32px rgba(0, 0, 0, 0.5),
-      0 0 16px var(--border-glow),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .top {
