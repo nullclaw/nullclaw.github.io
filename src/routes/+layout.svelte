@@ -18,6 +18,7 @@
   let isScrolled = $state(false);
   let effectsDisabled = $state(true);
   let theme = $state<(typeof themes)[number]>("theme-matrix");
+  let themeDropdownOpen = $state(false);
 
   onMount(() => {
     const storedTheme = localStorage.getItem(THEME_KEY);
@@ -53,12 +54,18 @@
     localStorage.setItem(EFFECTS_KEY, effectsDisabled ? "off" : "on");
   }
 
-  function handleThemeChange(event: Event) {
-    const select = event.target as HTMLSelectElement;
+  function handleThemeSelection(t: (typeof themes)[number]) {
     document.body.classList.remove(theme);
-    theme = select.value as (typeof themes)[number];
+    theme = t;
     document.body.classList.add(theme);
     localStorage.setItem(THEME_KEY, theme);
+    themeDropdownOpen = false;
+  }
+
+  function getThemeDisplayName(t: string) {
+    if (t === "theme-8bit-lobster") return "LOBSTER";
+    if (t === "theme-synthwave") return "SYNTH";
+    return t.replace("theme-", "").toUpperCase();
   }
 </script>
 
@@ -86,14 +93,27 @@
       >
         {effectsDisabled ? "FX:OFF" : "FX:ON"}
       </button>
-      <select class="icon-btn theme-select" value={theme} onchange={handleThemeChange} title="Theme">
-        <option value="theme-matrix">THEME: MATRIX</option>
-        <option value="theme-synthwave">THEME: SYNTH</option>
-        <option value="theme-amber">THEME: AMBER</option>
-        <option value="theme-dracula">THEME: DRACULA</option>
-        <option value="theme-light">THEME: LIGHT</option>
-        <option value="theme-8bit-lobster">THEME: LOBSTER</option>
-      </select>
+      {#if themeDropdownOpen}
+        <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+        <div class="dropdown-overlay" onclick={() => themeDropdownOpen = false}></div>
+      {/if}
+      <div class="theme-dropdown-container">
+        <button class="icon-btn theme-select" onclick={() => themeDropdownOpen = !themeDropdownOpen} title="Theme">
+          THEME: {getThemeDisplayName(theme)}
+        </button>
+        {#if themeDropdownOpen}
+          <div class="theme-dropdown-menu">
+            {#each themes as t}
+              <button 
+                class="theme-option {theme === t ? 'active' : ''}" 
+                onclick={() => handleThemeSelection(t)}
+              >
+                THEME: {getThemeDisplayName(t)}
+              </button>
+            {/each}
+          </div>
+        {/if}
+      </div>
       <a href="https://github.com/nullclaw" target="_blank" class="github-btn"
         >GITHUB</a
       >
@@ -221,17 +241,52 @@
     outline: none;
   }
 
-  .theme-select {
-    text-align: center;
-    appearance: none;
-    -webkit-appearance: none;
-    cursor: pointer;
+  .theme-dropdown-container {
+    position: relative;
+    display: inline-block;
   }
 
-  .theme-select option {
+  .dropdown-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 90;
+  }
+
+  .theme-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 8px;
     background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  .theme-option {
+    background: transparent;
+    border: none;
     color: var(--fg);
+    padding: 6px 12px;
+    font-family: inherit;
+    font-size: 0.72rem;
+    cursor: pointer;
     text-align: left;
+    white-space: nowrap;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+    letter-spacing: 0.06em;
+  }
+
+  .theme-option:hover, .theme-option.active {
+    background: var(--bg-hover);
+    color: var(--accent);
   }
 
   .github-btn {
